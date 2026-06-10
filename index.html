@@ -5,115 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DENTISTADG - Clínica Dental</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f0f4f8; 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f4f8;
             display: flex;
             min-height: 100vh;
             flex-direction: column;
         }
-        
-        header { 
-            background-color: white; 
-            padding: 20px; 
-            text-align: center; 
-            border-bottom: 5px solid #0077b6; 
+
+        /* ── HEADER ── */
+        header {
+            background-color: white;
+            padding: 18px 20px;
+            text-align: center;
+            border-bottom: 5px solid #0077b6;
             width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .logo-negocio { 
-            width: 100px; 
-            height: auto; 
-            display: block; 
-            margin: 0 auto 10px auto; 
-            border-radius: 50%; 
         }
 
-        h1 { 
-            color: #0077b6; 
-            margin: 5px 0; 
-            font-size: 32px; 
+        .logo-negocio {
+            width: 80px;
+            height: 80px;
+            display: block;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #0077b6;
+        }
+
+        h1 {
+            color: #0077b6;
+            margin: 4px 0;
+            font-size: 28px;
             text-transform: uppercase;
-        }
-        
-        .descripcion { 
-            max-width: 700px; 
-            margin: 0 auto; 
-            line-height: 1.6; 
-            color: #444;
-            font-size: 16px;
+            letter-spacing: 2px;
         }
 
-        /* DISEÑO DE 3 COLUMNAS PRINCIPALES */
+        .descripcion {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ── LAYOUT 3 COLUMNAS ── */
         .sitio-wrapper {
             display: grid;
-            grid-template-columns: 220px 1fr 400px; /* Izquierda, Centro, Derecha */
+            grid-template-columns: 200px 1fr 380px;
             gap: 20px;
             flex: 1;
             padding: 20px;
-            box-sizing: border-box;
         }
 
-        /* 1. COLUMNA IZQUIERDA: Menú Lateral */
-        nav { 
-            background-color: #0077b6; 
-            padding: 25px 10px; 
+        /* ── NAV LATERAL ── */
+        nav {
+            background-color: #0077b6;
+            padding: 20px 10px;
             display: flex;
-            flex-direction: column; 
-            gap: 12px; 
+            flex-direction: column;
+            gap: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            align-self: flex-start;
+            position: sticky;
+            top: 20px;
+        }
+
+        nav .nav-titulo {
+            color: #ade8f4;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 12px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 4px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 6px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+            background: none;
+        }
+
+        nav a:hover, nav a.activo {
+            background-color: rgba(255,255,255,0.18);
+            color: #ade8f4;
+            padding-left: 20px;
+        }
+
+        nav a .icono { font-size: 16px; }
+
+        /* ── CONTENIDO CENTRAL ── */
+        .contenido-centro {
+            background-color: white;
+            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             align-self: flex-start;
-        }
-        
-        nav a { 
-            color: white; 
-            text-decoration: none; 
-            padding: 12px 15px;
-            font-weight: bold; 
-            text-transform: uppercase;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            font-size: 13px;
-            display: block;
-        }
-        
-        nav a:hover, nav a.activo { 
-            background-color: #005f92; 
-            color: #ade8f4; 
-            padding-left: 22px; 
+            min-height: 400px;
         }
 
-        /* 2. COLUMNA CENTRAL: Tablas y Contenido */
-        .contenido-centro { 
-            background-color: white; 
-            padding: 25px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            align-self: flex-start;
-        }
+        /* Secciones ocultas/visibles */
+        .seccion { display: none; }
+        .seccion.activa { display: block; }
 
-        h2, h3 { 
-            color: #0077b6; 
+        h2 {
+            color: #0077b6;
+            font-size: 20px;
             border-bottom: 2px solid #caf0f8;
             padding-bottom: 10px;
-            margin-top: 0;
+            margin-bottom: 16px;
         }
 
-        /* Estilos base para las tablas del centro */
+        h3 {
+            color: #0077b6;
+            font-size: 15px;
+            border-bottom: 1px solid #e0f4fb;
+            padding-bottom: 8px;
+            margin: 20px 0 12px;
+        }
+
+        h3:first-of-type { margin-top: 0; }
+
+        .bienvenida-desc {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* ── TARJETAS RESUMEN ── */
+        .resumen-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            border-radius: 10px;
+            padding: 18px 16px;
+            text-align: center;
+            border-left: 4px solid;
+        }
+
+        .card.azul   { background: #e8f4fd; border-color: #0077b6; }
+        .card.verde  { background: #eafaf1; border-color: #27ae60; }
+        .card.naranja{ background: #fef9e7; border-color: #f39c12; }
+
+        .card .card-num  { font-size: 28px; font-weight: 700; color: #0077b6; }
+        .card.verde .card-num  { color: #27ae60; }
+        .card.naranja .card-num{ color: #f39c12; }
+        .card .card-label{ font-size: 12px; color: #666; margin-top: 4px; font-weight: 600; text-transform: uppercase; }
+        .card .card-estado{ font-size: 11px; margin-top: 6px; font-weight: 600; }
+        .card.azul .card-estado   { color: #0077b6; }
+        .card.verde .card-estado  { color: #27ae60; }
+        .card.naranja .card-estado{ color: #f39c12; }
+
+        /* ── TABLAS ── */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         table th, table td {
-            border: 1px solid #caf0f8;
-            padding: 10px;
+            border: 1px solid #e0f0f8;
+            padding: 9px 11px;
             text-align: left;
         }
 
@@ -121,182 +191,619 @@
             background-color: #0077b6;
             color: white;
             text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
         }
 
-        table tr:nth-child(even) {
-            background-color: #f8fbfd;
+        table tr:nth-child(even) td { background-color: #f5fbff; }
+        table tr:hover td { background-color: #e8f4fd; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
-        /* 3. COLUMNA DERECHA: Formulario / Encuesta */
-        .formulario-derecha { 
-            background-color: white; 
-            padding: 25px; 
-            border-radius: 10px; 
+        .badge-verde   { background: #d5f5e3; color: #1e8449; }
+        .badge-azul    { background: #d6eaf8; color: #1a5276; }
+        .badge-naranja { background: #fdebd0; color: #a04000; }
+        .badge-rojo    { background: #fadbd8; color: #922b21; }
+
+        /* ── COLUMNA DERECHA: FORMULARIOS ── */
+        .formulario-derecha {
+            background-color: white;
+            padding: 22px;
+            border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-top: 6px solid #0077b6;
+            border-top: 5px solid #0077b6;
             align-self: flex-start;
+            position: sticky;
+            top: 20px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .formulario-derecha h3 {
+            color: #0077b6;
+            font-size: 16px;
+            border-bottom: 2px solid #caf0f8;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
         }
-        
+
+        /* Paneles del formulario derecho */
+        .form-panel { display: none; }
+        .form-panel.activo { display: block; }
+
+        .form-group { margin-bottom: 12px; }
+
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
             color: #0077b6;
-            font-size: 13px;
-        }
-        
-        input[type="text"], input[type="number"], input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #bde0fe;
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: #f8fbfd;
-            color: #333;
-            box-sizing: border-box;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        input:focus {
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="email"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 9px 11px;
+            border: 2px solid #d0e8f8;
+            border-radius: 6px;
+            font-size: 13px;
+            background-color: #f8fbfd;
+            color: #333;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #0077b6;
-            box-shadow: 0 0 6px rgba(0, 119, 182, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.12);
         }
+
+        textarea { resize: vertical; min-height: 70px; }
 
         .btn-submit {
             background-color: #0077b6;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 11px 16px;
             width: 100%;
             border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.25s;
+            margin-top: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit:hover { background-color: #005f92; }
+
+        /* Mensaje de éxito */
+        .mensaje-exito {
+            display: none;
+            background: #d5f5e3;
+            border: 1px solid #a9dfbf;
+            color: #1e8449;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
             margin-top: 10px;
+            text-align: center;
         }
 
-        .btn-submit:hover {
-            background-color: #005f92;
-        }
-
-        footer { 
-            background-color: #222; 
-            color: white; 
-            text-align: center; 
-            padding: 20px; 
+        /* ── FOOTER ── */
+        footer {
+            background-color: #1a1a2e;
+            color: #aaa;
+            text-align: center;
+            padding: 16px 20px;
             width: 100%;
-            box-sizing: border-box;
-            margin-top: auto; 
+            margin-top: auto;
+            font-size: 13px;
         }
-        
-        footer p { margin: 5px 0; }
+
+        footer strong { color: #ade8f4; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .sitio-wrapper {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                position: static;
+            }
+            .formulario-derecha { position: static; }
+            .resumen-cards { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <img src="logo.png" alt="Logo de DENTISTADG" class="logo-negocio">
-        <h1>DENTISTADG</h1>
-        <p class="descripcion">Atención odontológica profesional utilizando tecnología moderna y un trato amable.</p>
-    </header>
+<header>
+    <!-- Si tienes logo.png en la misma carpeta se mostrará; si no, aparece el ícono de abajo -->
+    <img src="logo.png" alt="Logo DENTISTADG" class="logo-negocio"
+         onerror="this.style.fontSize='36px'; this.style.lineHeight='80px'; this.style.color='white'; this.style.textAlign='center'; this.textContent='🦷'; this.onerror=null;">
+    <h1>DENTISTADG</h1>
+    <p class="descripcion">Atención odontológica profesional — tecnología moderna, trato amable.</p>
+</header>
 
-    <!-- CONTENEDOR MAESTRO DE 3 COLUMNAS -->
-    <div class="sitio-wrapper">
-        
-        <!-- 1. COLUMNA IZQUIERDA: Menú -->
-        <nav>
-            <a href="dagv-dentista.html" class="activo">Inicio</a>
-            <a href="odontologos.html">Odontólogos</a>
-            <a href="encuesta.html">Pacientes</a>
-            <a href="servicios.html">Servicios</a>
-            <a href="citas.html">Citas</a>
-            <a href="pagos.html">Pagos</a>
-        </nav>
+<div class="sitio-wrapper">
 
-        <!-- 2. COLUMNA CENTRAL: Cambia de datos según la sección -->
-        <main class="contenido-centro">
-            <h2>Panel de Inicio</h2>
-            <p>Bienvenido al sistema clínico, Diego. Seleccione un apartado para visualizar las tablas correspondientes.</p>
-            
-            <h3>Resumen Clínico General</h3>
+    <!-- ══ COLUMNA IZQUIERDA: NAV ══ -->
+    <nav>
+        <div class="nav-titulo">Menú</div>
+        <a href="#" class="activo" onclick="mostrarSeccion('inicio', this)">
+            <span class="icono">🏠</span> Inicio
+        </a>
+        <a href="#" onclick="mostrarSeccion('odontologos', this)">
+            <span class="icono">👨‍⚕️</span> Odontólogos
+        </a>
+        <a href="#" onclick="mostrarSeccion('pacientes', this)">
+            <span class="icono">🧑‍🤝‍🧑</span> Pacientes
+        </a>
+        <a href="#" onclick="mostrarSeccion('servicios', this)">
+            <span class="icono">🦷</span> Servicios
+        </a>
+        <a href="#" onclick="mostrarSeccion('citas', this)">
+            <span class="icono">📅</span> Citas
+        </a>
+        <a href="#" onclick="mostrarSeccion('pagos', this)">
+            <span class="icono">💳</span> Pagos
+        </a>
+    </nav>
+
+    <!-- ══ COLUMNA CENTRAL ══ -->
+    <main class="contenido-centro">
+
+        <!-- INICIO -->
+        <div id="sec-inicio" class="seccion activa">
+            <h2>🏠 Panel de Inicio</h2>
+            <p class="bienvenida-desc">Bienvenido al sistema clínico, <strong>Diego</strong>. Seleccione un apartado del menú para gestionar las secciones correspondientes.</p>
+
+            <div class="resumen-cards">
+                <div class="card azul">
+                    <div class="card-num">5</div>
+                    <div class="card-label">Odontólogos</div>
+                    <div class="card-estado">✅ Disponible</div>
+                </div>
+                <div class="card verde">
+                    <div class="card-num">42</div>
+                    <div class="card-label">Pacientes</div>
+                    <div class="card-estado">✅ Actualizado</div>
+                </div>
+                <div class="card naranja">
+                    <div class="card-num">8</div>
+                    <div class="card-label">Citas hoy</div>
+                    <div class="card-estado">⏳ En Curso</div>
+                </div>
+            </div>
+
+            <h3>Resumen General del Sistema</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>Sección</th>
-                        <th>Registros Activos</th>
-                        <th>Estado del Sistema</th>
-                    </tr>
+                    <tr><th>Sección</th><th>Registros Activos</th><th>Último Acceso</th><th>Estado</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Odontólogos</td>
-                        <td>5 Especialistas</td>
-                        <td>Disponible</td>
-                    </tr>
-                    <tr>
-                        <td>Pacientes</td>
-                        <td>42 Registrados</td>
-                        <td>Actualizado</td>
-                    </tr>
-                    <tr>
-                        <td>Citas de hoy</td>
-                        <td>8 Pendientes</td>
-                        <td>En Curso</td>
-                    </tr>
+                    <tr><td>Odontólogos</td><td>5 Especialistas</td><td>Hoy, 09:00</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>Pacientes</td><td>42 Registrados</td><td>Hoy, 08:30</td><td><span class="badge badge-verde">Actualizado</span></td></tr>
+                    <tr><td>Citas del día</td><td>8 Pendientes</td><td>Hoy, 10:15</td><td><span class="badge badge-naranja">En Curso</span></td></tr>
+                    <tr><td>Servicios</td><td>12 Activos</td><td>Ayer</td><td><span class="badge badge-azul">Estable</span></td></tr>
+                    <tr><td>Pagos</td><td>3 Pendientes</td><td>Hoy, 07:45</td><td><span class="badge badge-naranja">Pendiente</span></td></tr>
                 </tbody>
             </table>
-        </main>
+        </div>
 
-        <!-- 3. COLUMNA DERECHA: Tu Formulario / Encuesta Fijo -->
-        <aside class="formulario-derecha">
-            <h3>Alta de Pacientes</h3>
-            <form action="dagv-dentista.html" method="POST">
-                <div class="form-group">
-                    <label for="id_paciente">ID Paciente:</label>
-                    <input type="number" id="id_paciente" name="id_paciente" required>
-                </div>
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" id="apellidos" name="apellidos" required>
-                </div>
-                <div class="form-group">
-                    <label for="sexo">Sexo:</label>
-                    <input type="text" id="sexo" name="sexo" placeholder="Ej: Masculino" required>
-                </div>
-                <div class="form-group">
-                    <label for="edad">Edad:</label>
-                    <input type="number" id="edad" name="edad" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="number" id="telefono" name="telefono" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha_nac">F. Nacimiento:</label>
-                    <input type="date" id="fecha_nac" name="fecha_nac" required>
-                </div>
-                <div class="form-group">
-                    <label for="direccion">Dirección:</label>
-                    <input type="text" id="direccion" name="direccion" required>
-                </div>
-                <button type="submit" class="btn-submit">Registrar Paciente</button>
-            </form>
-        </aside>
+        <!-- ODONTÓLOGOS -->
+        <div id="sec-odontologos" class="seccion">
+            <h2>👨‍⚕️ Odontólogos</h2>
+            <p class="bienvenida-desc">Directorio de especialistas activos en la clínica.</p>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Nombre Completo</th><th>Especialidad</th><th>Cédula</th><th>Horario</th><th>Estado</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>001</td><td>Dr. Carlos Mendoza</td><td>Ortodoncia</td><td>4521876</td><td>Lun–Vie 9–14h</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>002</td><td>Dra. Laura Pérez</td><td>Endodoncia</td><td>3987654</td><td>Lun–Vie 14–20h</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>003</td><td>Dr. Javier Ruiz</td><td>Cirugía Oral</td><td>5123490</td><td>Mar–Sáb 9–15h</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>004</td><td>Dra. Ana Torres</td><td>Odontopediatría</td><td>6230187</td><td>Lun–Jue 10–16h</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>005</td><td>Dr. Marco Leal</td><td>Implantología</td><td>7018345</td><td>Mié–Sáb 10–18h</td><td><span class="badge badge-naranja">Vacaciones</span></td></tr>
+                </tbody>
+            </table>
+        </div>
 
-    </div>
+        <!-- PACIENTES -->
+        <div id="sec-pacientes" class="seccion">
+            <h2>🧑‍🤝‍🧑 Pacientes Registrados</h2>
+            <p class="bienvenida-desc">Listado de pacientes activos. Usa el formulario de la derecha para dar de alta un nuevo paciente.</p>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Nombre</th><th>Edad</th><th>Teléfono</th><th>Última Visita</th><th>Estado</th></tr>
+                </thead>
+                <tbody id="tabla-pacientes">
+                    <tr><td>P001</td><td>María García</td><td>34</td><td>656 123 456</td><td>05/06/2026</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>P002</td><td>Juan López</td><td>28</td><td>612 987 654</td><td>03/06/2026</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>P003</td><td>Sofia Ramírez</td><td>45</td><td>698 741 258</td><td>01/06/2026</td><td><span class="badge badge-azul">En tratamiento</span></td></tr>
+                    <tr><td>P004</td><td>Pedro Díaz</td><td>12</td><td>633 369 147</td><td>28/05/2026</td><td><span class="badge badge-verde">Activo</span></td></tr>
+                    <tr><td>P005</td><td>Carmen Flores</td><td>62</td><td>677 258 369</td><td>20/05/2026</td><td><span class="badge badge-rojo">Inactivo</span></td></tr>
+                </tbody>
+            </table>
+        </div>
 
-    <footer>
-        <p><strong>Alumno:</strong> Diego Alejandro Gomez Vazquez | 24308051280845 | 4-J Programación</p>
-    </footer>
+        <!-- SERVICIOS -->
+        <div id="sec-servicios" class="seccion">
+            <h2>🦷 Servicios Disponibles</h2>
+            <p class="bienvenida-desc">Catálogo de tratamientos y procedimientos ofrecidos por la clínica.</p>
+            <table>
+                <thead>
+                    <tr><th>Código</th><th>Servicio</th><th>Especialidad</th><th>Duración</th><th>Precio</th><th>Estado</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>SRV-01</td><td>Limpieza Dental</td><td>General</td><td>45 min</td><td>$350</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>SRV-02</td><td>Ortodoncia Brackets</td><td>Ortodoncia</td><td>Mensual</td><td>$1,200/mes</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>SRV-03</td><td>Blanqueamiento</td><td>Estética</td><td>90 min</td><td>$800</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>SRV-04</td><td>Endodoncia</td><td>Endodoncia</td><td>2–3 sesiones</td><td>$2,500</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>SRV-05</td><td>Extracción Simple</td><td>Cirugía Oral</td><td>30 min</td><td>$450</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                    <tr><td>SRV-06</td><td>Implante Dental</td><td>Implantología</td><td>2–4 sesiones</td><td>$8,500</td><td><span class="badge badge-naranja">Limitado</span></td></tr>
+                    <tr><td>SRV-07</td><td>Radiografía Panorámica</td><td>Diagnóstico</td><td>15 min</td><td>$280</td><td><span class="badge badge-verde">Disponible</span></td></tr>
+                </tbody>
+            </table>
+        </div>
 
+        <!-- CITAS -->
+        <div id="sec-citas" class="seccion">
+            <h2>📅 Gestión de Citas</h2>
+            <p class="bienvenida-desc">Citas programadas. Usa el formulario de la derecha para agendar una nueva cita.</p>
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Paciente</th><th>Doctor</th><th>Servicio</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr>
+                </thead>
+                <tbody id="tabla-citas">
+                    <tr><td>C001</td><td>María García</td><td>Dr. Mendoza</td><td>Ortodoncia</td><td>10/06/2026</td><td>09:00</td><td><span class="badge badge-naranja">Pendiente</span></td></tr>
+                    <tr><td>C002</td><td>Juan López</td><td>Dra. Pérez</td><td>Endodoncia</td><td>10/06/2026</td><td>10:30</td><td><span class="badge badge-naranja">Pendiente</span></td></tr>
+                    <tr><td>C003</td><td>Sofia Ramírez</td><td>Dr. Ruiz</td><td>Extracción</td><td>10/06/2026</td><td>12:00</td><td><span class="badge badge-verde">Confirmada</span></td></tr>
+                    <tr><td>C004</td><td>Pedro Díaz</td><td>Dra. Torres</td><td>Limpieza</td><td>11/06/2026</td><td>11:00</td><td><span class="badge badge-azul">Programada</span></td></tr>
+                    <tr><td>C005</td><td>Carmen Flores</td><td>Dr. Leal</td><td>Implante</td><td>12/06/2026</td><td>14:00</td><td><span class="badge badge-rojo">Cancelada</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGOS -->
+        <div id="sec-pagos" class="seccion">
+            <h2>💳 Registro de Pagos</h2>
+            <p class="bienvenida-desc">Historial de pagos y cuentas pendientes por paciente.</p>
+            <table>
+                <thead>
+                    <tr><th>Folio</th><th>Paciente</th><th>Servicio</th><th>Total</th><th>Pagado</th><th>Saldo</th><th>Estado</th></tr>
+                </thead>
+                <tbody id="tabla-pagos">
+                    <tr><td>PAG-001</td><td>María García</td><td>Ortodoncia</td><td>$1,200</td><td>$1,200</td><td>$0</td><td><span class="badge badge-verde">Pagado</span></td></tr>
+                    <tr><td>PAG-002</td><td>Juan López</td><td>Endodoncia</td><td>$2,500</td><td>$1,250</td><td>$1,250</td><td><span class="badge badge-naranja">Parcial</span></td></tr>
+                    <tr><td>PAG-003</td><td>Sofia Ramírez</td><td>Extracción</td><td>$450</td><td>$0</td><td>$450</td><td><span class="badge badge-rojo">Pendiente</span></td></tr>
+                    <tr><td>PAG-004</td><td>Pedro Díaz</td><td>Limpieza</td><td>$350</td><td>$350</td><td>$0</td><td><span class="badge badge-verde">Pagado</span></td></tr>
+                    <tr><td>PAG-005</td><td>Carmen Flores</td><td>Blanqueamiento</td><td>$800</td><td>$400</td><td>$400</td><td><span class="badge badge-naranja">Parcial</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- ══ COLUMNA DERECHA: FORMULARIOS ══ -->
+    <aside class="formulario-derecha">
+
+        <!-- Panel: Inicio (info clínica) -->
+        <div id="form-inicio" class="form-panel activo">
+            <h3>ℹ️ Información Clínica</h3>
+            <p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:14px;">Sistema de gestión clínica <strong>DENTISTADG</strong>. Navegue por el menú lateral para acceder a cada módulo.</p>
+            <table style="font-size:12px;">
+                <tr><th>Dato</th><th>Valor</th></tr>
+                <tr><td>Versión</td><td>1.0.0</td></tr>
+                <tr><td>Operador</td><td>Diego A.G.V.</td></tr>
+                <tr><td>Fecha</td><td id="fecha-actual"></td></tr>
+                <tr><td>Turno</td><td>Matutino</td></tr>
+            </table>
+        </div>
+
+        <!-- Panel: Nuevo Odontólogo -->
+        <div id="form-odontologos" class="form-panel">
+            <h3>➕ Nuevo Odontólogo</h3>
+            <div class="form-group"><label>ID Odontólogo</label><input type="number" placeholder="Ej: 006" id="f-od-id"></div>
+            <div class="form-group"><label>Nombre Completo</label><input type="text" placeholder="Dr. Nombre Apellido" id="f-od-nombre"></div>
+            <div class="form-group"><label>Especialidad</label>
+                <select id="f-od-esp">
+                    <option value="">— Seleccionar —</option>
+                    <option>Ortodoncia</option><option>Endodoncia</option>
+                    <option>Cirugía Oral</option><option>Odontopediatría</option>
+                    <option>Implantología</option><option>Estética Dental</option>
+                    <option>General</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Cédula Profesional</label><input type="text" placeholder="Número de cédula" id="f-od-cedula"></div>
+            <div class="form-group"><label>Horario</label><input type="text" placeholder="Ej: Lun–Vie 9–15h" id="f-od-horario"></div>
+            <button class="btn-submit" onclick="registrarOdontologo()">Registrar Odontólogo</button>
+            <div id="msg-od" class="mensaje-exito">✅ Odontólogo registrado correctamente.</div>
+        </div>
+
+        <!-- Panel: Alta de Pacientes -->
+        <div id="form-pacientes" class="form-panel">
+            <h3>➕ Alta de Paciente</h3>
+            <div class="form-group"><label>ID Paciente</label><input type="number" placeholder="Ej: P043" id="f-pac-id"></div>
+            <div class="form-group"><label>Nombre</label><input type="text" id="f-pac-nombre"></div>
+            <div class="form-group"><label>Apellidos</label><input type="text" id="f-pac-apellidos"></div>
+            <div class="form-group"><label>Sexo</label>
+                <select id="f-pac-sexo"><option value="">— Seleccionar —</option><option>Masculino</option><option>Femenino</option><option>Otro</option></select>
+            </div>
+            <div class="form-group"><label>Edad</label><input type="number" id="f-pac-edad" min="0" max="120"></div>
+            <div class="form-group"><label>Teléfono</label><input type="text" id="f-pac-tel" placeholder="Ej: 656 123 456"></div>
+            <div class="form-group"><label>F. Nacimiento</label><input type="date" id="f-pac-fnac"></div>
+            <div class="form-group"><label>Dirección</label><input type="text" id="f-pac-dir"></div>
+            <button class="btn-submit" onclick="registrarPaciente()">Registrar Paciente</button>
+            <div id="msg-pac" class="mensaje-exito">✅ Paciente registrado correctamente.</div>
+        </div>
+
+        <!-- Panel: Nuevo Servicio -->
+        <div id="form-servicios" class="form-panel">
+            <h3>➕ Nuevo Servicio</h3>
+            <div class="form-group"><label>Código</label><input type="text" placeholder="Ej: SRV-08" id="f-srv-codigo"></div>
+            <div class="form-group"><label>Nombre del Servicio</label><input type="text" id="f-srv-nombre"></div>
+            <div class="form-group"><label>Especialidad</label>
+                <select id="f-srv-esp">
+                    <option value="">— Seleccionar —</option>
+                    <option>General</option><option>Ortodoncia</option>
+                    <option>Endodoncia</option><option>Cirugía Oral</option>
+                    <option>Estética</option><option>Diagnóstico</option><option>Implantología</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Duración</label><input type="text" placeholder="Ej: 45 min" id="f-srv-duracion"></div>
+            <div class="form-group"><label>Precio ($)</label><input type="number" id="f-srv-precio" min="0"></div>
+            <button class="btn-submit" onclick="registrarServicio()">Agregar Servicio</button>
+            <div id="msg-srv" class="mensaje-exito">✅ Servicio agregado correctamente.</div>
+        </div>
+
+        <!-- Panel: Nueva Cita -->
+        <div id="form-citas" class="form-panel">
+            <h3>📅 Agendar Cita</h3>
+            <div class="form-group"><label>Nombre del Paciente</label><input type="text" id="f-cit-paciente"></div>
+            <div class="form-group"><label>Doctor</label>
+                <select id="f-cit-doctor">
+                    <option value="">— Seleccionar —</option>
+                    <option>Dr. Carlos Mendoza</option><option>Dra. Laura Pérez</option>
+                    <option>Dr. Javier Ruiz</option><option>Dra. Ana Torres</option>
+                    <option>Dr. Marco Leal</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Servicio</label>
+                <select id="f-cit-servicio">
+                    <option value="">— Seleccionar —</option>
+                    <option>Limpieza Dental</option><option>Ortodoncia Brackets</option>
+                    <option>Blanqueamiento</option><option>Endodoncia</option>
+                    <option>Extracción Simple</option><option>Implante Dental</option>
+                    <option>Radiografía Panorámica</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Fecha</label><input type="date" id="f-cit-fecha"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="f-cit-hora"></div>
+            <div class="form-group"><label>Notas</label><textarea id="f-cit-notas" placeholder="Observaciones opcionales..."></textarea></div>
+            <button class="btn-submit" onclick="registrarCita()">Agendar Cita</button>
+            <div id="msg-cit" class="mensaje-exito">✅ Cita agendada correctamente.</div>
+        </div>
+
+        <!-- Panel: Registrar Pago -->
+        <div id="form-pagos" class="form-panel">
+            <h3>💳 Registrar Pago</h3>
+            <div class="form-group"><label>Nombre del Paciente</label><input type="text" id="f-pag-paciente"></div>
+            <div class="form-group"><label>Servicio Pagado</label><input type="text" id="f-pag-servicio"></div>
+            <div class="form-group"><label>Total del Servicio ($)</label><input type="number" id="f-pag-total" min="0"></div>
+            <div class="form-group"><label>Monto a Pagar Ahora ($)</label><input type="number" id="f-pag-monto" min="0"></div>
+            <div class="form-group"><label>Método de Pago</label>
+                <select id="f-pag-metodo">
+                    <option value="">— Seleccionar —</option>
+                    <option>Efectivo</option><option>Tarjeta de Crédito</option>
+                    <option>Tarjeta de Débito</option><option>Transferencia</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Fecha de Pago</label><input type="date" id="f-pag-fecha"></div>
+            <button class="btn-submit" onclick="registrarPago()">Registrar Pago</button>
+            <div id="msg-pag" class="mensaje-exito">✅ Pago registrado correctamente.</div>
+        </div>
+
+    </aside>
+</div>
+
+<footer>
+    <p><strong>Alumno:</strong> Diego Alejandro Gomez Vazquez &nbsp;|&nbsp; 24308051280845 &nbsp;|&nbsp; 4-J Programación</p>
+    <p style="margin-top:4px;font-size:11px;color:#666;">DENTISTADG © 2026 — Sistema de Gestión Clínica</p>
+</footer>
+
+<script>
+    // ── MOSTRAR FECHA ACTUAL ──
+    const hoy = new Date();
+    const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaEl = document.getElementById('fecha-actual');
+    if (fechaEl) fechaEl.textContent = hoy.toLocaleDateString('es-MX', opciones);
+
+    // ── NAVEGACIÓN ENTRE SECCIONES ──
+    function mostrarSeccion(id, enlace) {
+        // Ocultar todas las secciones y formularios
+        document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+        document.querySelectorAll('.form-panel').forEach(f => f.classList.remove('activo'));
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('activo'));
+
+        // Mostrar la sección seleccionada
+        const sec = document.getElementById('sec-' + id);
+        const form = document.getElementById('form-' + id);
+        if (sec)  sec.classList.add('activa');
+        if (form) form.classList.add('activo');
+        enlace.classList.add('activo');
+
+        // Evitar que el enlace navegue
+        return false;
+    }
+
+    // ── Contador global de IDs ──
+    let contPaciente = 6, contCita = 6, contPago = 6, contOd = 6, contSrv = 8;
+
+    // ── REGISTRAR PACIENTE ──
+    function registrarPaciente() {
+        const nombre    = document.getElementById('f-pac-nombre').value.trim();
+        const apellidos = document.getElementById('f-pac-apellidos').value.trim();
+        const edad      = document.getElementById('f-pac-edad').value;
+        const tel       = document.getElementById('f-pac-tel').value.trim();
+
+        if (!nombre || !apellidos || !edad || !tel) {
+            alert('Por favor completa Nombre, Apellidos, Edad y Teléfono.');
+            return;
+        }
+
+        const tbody = document.getElementById('tabla-pacientes');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>P00${contPaciente++}</td>
+            <td>${nombre} ${apellidos}</td>
+            <td>${edad}</td>
+            <td>${tel}</td>
+            <td>${new Date().toLocaleDateString('es-MX')}</td>
+            <td><span class="badge badge-verde">Activo</span></td>`;
+        tbody.appendChild(tr);
+
+        // Limpiar campos
+        ['f-pac-id','f-pac-nombre','f-pac-apellidos','f-pac-sexo',
+         'f-pac-edad','f-pac-tel','f-pac-fnac','f-pac-dir'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+
+        mostrarMensaje('msg-pac');
+    }
+
+    // ── REGISTRAR ODONTÓLOGO ──
+    function registrarOdontologo() {
+        const nombre = document.getElementById('f-od-nombre').value.trim();
+        const esp    = document.getElementById('f-od-esp').value;
+        const cedula = document.getElementById('f-od-cedula').value.trim();
+
+        if (!nombre || !esp || !cedula) {
+            alert('Por favor completa Nombre, Especialidad y Cédula.');
+            return;
+        }
+
+        // Solo mostramos confirmación (no hay tabla de odontólogos visible en esta demo)
+        contOd++;
+        ['f-od-id','f-od-nombre','f-od-esp','f-od-cedula','f-od-horario'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        mostrarMensaje('msg-od');
+    }
+
+    // ── REGISTRAR SERVICIO ──
+    function registrarServicio() {
+        const nombre = document.getElementById('f-srv-nombre').value.trim();
+        const precio = document.getElementById('f-srv-precio').value;
+
+        if (!nombre || !precio) {
+            alert('Por favor completa Nombre y Precio del servicio.');
+            return;
+        }
+
+        contSrv++;
+        ['f-srv-codigo','f-srv-nombre','f-srv-esp','f-srv-duracion','f-srv-precio'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        mostrarMensaje('msg-srv');
+    }
+
+    // ── REGISTRAR CITA ──
+    function registrarCita() {
+        const paciente = document.getElementById('f-cit-paciente').value.trim();
+        const doctor   = document.getElementById('f-cit-doctor').value;
+        const servicio = document.getElementById('f-cit-servicio').value;
+        const fecha    = document.getElementById('f-cit-fecha').value;
+        const hora     = document.getElementById('f-cit-hora').value;
+
+        if (!paciente || !doctor || !servicio || !fecha || !hora) {
+            alert('Por favor completa todos los campos de la cita.');
+            return;
+        }
+
+        const tbody = document.getElementById('tabla-citas');
+        const tr = document.createElement('tr');
+        const fechaFmt = new Date(fecha + 'T00:00').toLocaleDateString('es-MX');
+        tr.innerHTML = `
+            <td>C00${contCita++}</td>
+            <td>${paciente}</td>
+            <td>${doctor}</td>
+            <td>${servicio}</td>
+            <td>${fechaFmt}</td>
+            <td>${hora}</td>
+            <td><span class="badge badge-azul">Programada</span></td>`;
+        tbody.appendChild(tr);
+
+        ['f-cit-paciente','f-cit-doctor','f-cit-servicio','f-cit-fecha','f-cit-hora','f-cit-notas'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        mostrarMensaje('msg-cit');
+    }
+
+    // ── REGISTRAR PAGO ──
+    function registrarPago() {
+        const paciente = document.getElementById('f-pag-paciente').value.trim();
+        const servicio = document.getElementById('f-pag-servicio').value.trim();
+        const total    = parseFloat(document.getElementById('f-pag-total').value) || 0;
+        const monto    = parseFloat(document.getElementById('f-pag-monto').value) || 0;
+
+        if (!paciente || !servicio || !total || !monto) {
+            alert('Por favor completa todos los campos del pago.');
+            return;
+        }
+
+        const saldo = total - monto;
+        const estado = saldo <= 0
+            ? '<span class="badge badge-verde">Pagado</span>'
+            : '<span class="badge badge-naranja">Parcial</span>';
+
+        const tbody = document.getElementById('tabla-pagos');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>PAG-00${contPago++}</td>
+            <td>${paciente}</td>
+            <td>${servicio}</td>
+            <td>$${total.toLocaleString()}</td>
+            <td>$${monto.toLocaleString()}</td>
+            <td>$${Math.max(saldo,0).toLocaleString()}</td>
+            <td>${estado}</td>`;
+        tbody.appendChild(tr);
+
+        ['f-pag-paciente','f-pag-servicio','f-pag-total','f-pag-monto','f-pag-metodo','f-pag-fecha'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        mostrarMensaje('msg-pag');
+    }
+
+    // ── HELPER: Mostrar mensaje de éxito y ocultarlo después ──
+    function mostrarMensaje(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 3000);
+    }
+</script>
 </body>
 </html>
