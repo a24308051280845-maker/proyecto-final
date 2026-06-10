@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DENTISTADG - Clínica Dental</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f0f4f8; 
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        header { 
+            background-color: white; 
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 5px solid #0077b6; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .logo-negocio { 
+            width: 100px; 
+            height: auto; 
+            display: block; 
+            margin: 0 auto 10px auto; 
+            border-radius: 50%; 
+        }
+
+        h1 { 
+            color: #0077b6; 
+            margin: 5px 0; 
+            font-size: 32px; 
+            text-transform: uppercase;
+        }
+        
+        .descripcion { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            line-height: 1.6; 
+            color: #444;
+            font-size: 16px;
+        }
+
+        /* DISEÑO DE 3 COLUMNAS PRINCIPALES */
+        .sitio-wrapper {
+            display: grid;
+            grid-template-columns: 220px 1fr 400px; /* Izquierda, Centro, Derecha */
+            gap: 20px;
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* 1. COLUMNA IZQUIERDA: Menú Lateral */
+        nav { 
+            background-color: #0077b6; 
+            padding: 25px 10px; 
+            display: flex;
+            flex-direction: column; 
+            gap: 12px; 
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            align-self: flex-start;
+        }
+        
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 15px;
+            font-weight: bold; 
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            display: block;
+        }
+        
+        nav a:hover, nav a.activo { 
+            background-color: #005f92; 
+            color: #ade8f4; 
+            padding-left: 22px; 
+        }
+
+        /* 2. COLUMNA CENTRAL: Tablas y Contenido */
+        .contenido-centro { 
+            background-color: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            align-self: flex-start;
+        }
+
+        h2, h3 { 
+            color: #0077b6; 
+            border-bottom: 2px solid #caf0f8;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* Estilos base para las tablas del centro */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        table th, table td {
+            border: 1px solid #caf0f8;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #0077b6;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f8fbfd;
+        }
+
+        /* 3. COLUMNA DERECHA: Formulario / Encuesta */
+        .formulario-derecha { 
+            background-color: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 6px solid #0077b6;
+            align-self: flex-start;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #0077b6;
+            font-size: 13px;
+        }
+        
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #bde0fe;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f8fbfd;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0077b6;
+            box-shadow: 0 0 6px rgba(0, 119, 182, 0.2);
+        }
+
+        .btn-submit {
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #005f92;
+        }
+
+        footer { 
+            background-color: #222; 
+            color: white; 
+            text-align: center; 
+            padding: 20px; 
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: auto; 
+        }
+        
+        footer p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Logo de DENTISTADG" class="logo-negocio">
+        <h1>DENTISTADG</h1>
+        <p class="descripcion">Atención odontológica profesional utilizando tecnología moderna y un trato amable.</p>
+    </header>
+
+    <!-- CONTENEDOR MAESTRO DE 3 COLUMNAS -->
+    <div class="sitio-wrapper">
+        
+        <!-- 1. COLUMNA IZQUIERDA: Menú -->
+        <nav>
+            <a href="dagv-dentista.html" class="activo">Inicio</a>
+            <a href="odontologos.html">Odontólogos</a>
+            <a href="encuesta.html">Pacientes</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="citas.html">Citas</a>
+            <a href="pagos.html">Pagos</a>
+        </nav>
+
+        <!-- 2. COLUMNA CENTRAL: Cambia de datos según la sección -->
+        <main class="contenido-centro">
+            <h2>Panel de Inicio</h2>
+            <p>Bienvenido al sistema clínico, Diego. Seleccione un apartado para visualizar las tablas correspondientes.</p>
+            
+            <h3>Resumen Clínico General</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sección</th>
+                        <th>Registros Activos</th>
+                        <th>Estado del Sistema</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Odontólogos</td>
+                        <td>5 Especialistas</td>
+                        <td>Disponible</td>
+                    </tr>
+                    <tr>
+                        <td>Pacientes</td>
+                        <td>42 Registrados</td>
+                        <td>Actualizado</td>
+                    </tr>
+                    <tr>
+                        <td>Citas de hoy</td>
+                        <td>8 Pendientes</td>
+                        <td>En Curso</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+
+        <!-- 3. COLUMNA DERECHA: Tu Formulario / Encuesta Fijo -->
+        <aside class="formulario-derecha">
+            <h3>Alta de Pacientes</h3>
+            <form action="dagv-dentista.html" method="POST">
+                <div class="form-group">
+                    <label for="id_paciente">ID Paciente:</label>
+                    <input type="number" id="id_paciente" name="id_paciente" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    <input type="text" id="sexo" name="sexo" placeholder="Ej: Masculino" required>
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" name="edad" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="number" id="telefono" name="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_nac">F. Nacimiento:</label>
+                    <input type="date" id="fecha_nac" name="fecha_nac" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+                <button type="submit" class="btn-submit">Registrar Paciente</button>
+            </form>
+        </aside>
+
+    </div>
+
+    <footer>
+        <p><strong>Alumno:</strong> Diego Alejandro Gomez Vazquez | 24308051280845 | 4-J Programación</p>
+    </footer>
+
+</body>
+</html>
