@@ -3,358 +3,1218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DENTISTADG | Gestión de Bases de Datos No Relacionales</title>
-    
-    <!-- Tipografía Inter y FontAwesome para Iconos -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
+    <title>DENTISTADG | Sistema de Gestión Clínica</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0077b6;
-            --primary-dark: #023e8a;
-            --accent: #ade8f4;
-            --bg: #f8fafc;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --white: #ffffff;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
+            --navy:      #0b1f3a;
+            --navy-mid:  #122846;
+            --navy-soft: #1a3558;
+            --teal:      #00c9a7;
+            --teal-dim:  #00a589;
+            --sky:       #38bdf8;
+            --white:     #ffffff;
+            --off:       #f0f4f9;
+            --muted:     #8da3be;
+            --border:    rgba(255,255,255,0.07);
+            --danger:    #f87171;
+            --warning:   #fbbf24;
+            --card-bg:   rgba(255,255,255,0.03);
+            --card-bdr:  rgba(255,255,255,0.08);
+            --radius:    14px;
+            --font:      'DM Sans', sans-serif;
+            --mono:      'DM Mono', monospace;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); display: flex; min-height: 100vh; flex-direction: column; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* --- 1. ENCABEZADO Y LOGO (Rúbrica 3) --- */
+        body {
+            font-family: var(--font);
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ──────────────────────────────────────────
+           HEADER
+        ────────────────────────────────────────── */
         header {
-            background: var(--white);
-            padding: 1.2rem 2.5rem;
+            background: var(--navy-mid);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 5px solid var(--primary);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
         }
-        .logo-box { display: flex; align-items: center; gap: 15px; }
-        .logo-img { 
-            background: var(--primary); color: white; width: 50px; height: 50px; 
-            border-radius: 14px; display: flex; align-items: center; justify-content: center; 
-            font-size: 26px; box-shadow: 0 4px 12px rgba(0,119,182,0.3);
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
-        .logo-text h1 { font-size: 1.6rem; color: var(--primary); font-weight: 800; letter-spacing: -1px; }
-        .logo-text p { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; font-weight: 600; }
 
-        /* --- LAYOUT --- */
-        .main-wrapper { display: grid; grid-template-columns: 260px 1fr 380px; gap: 25px; padding: 25px; flex: 1; }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--sky) 100%);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--navy);
+            box-shadow: 0 0 20px rgba(0,201,167,0.35);
+        }
 
-        /* --- 2. BARRA DE NAVEGACIÓN (Rúbrica 3) --- */
-        nav { background: #0f172a; border-radius: 20px; padding: 25px 15px; color: white; height: fit-content; position: sticky; top: 25px; }
-        nav h3 { font-size: 0.7rem; text-transform: uppercase; color: #475569; margin-bottom: 1.5rem; letter-spacing: 2px; padding-left: 10px; }
+        .logo-text-main {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--white);
+        }
+
+        .logo-text-main span {
+            color: var(--teal);
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .db-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,201,167,0.1);
+            border: 1px solid rgba(0,201,167,0.25);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .db-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--teal);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ──────────────────────────────────────────
+           LAYOUT
+        ────────────────────────────────────────── */
+        .layout {
+            display: grid;
+            grid-template-columns: 230px 1fr 360px;
+            gap: 0;
+            flex: 1;
+        }
+
+        /* ──────────────────────────────────────────
+           SIDEBAR NAV
+        ────────────────────────────────────────── */
+        .sidebar {
+            background: var(--navy-mid);
+            border-right: 1px solid var(--border);
+            padding: 28px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+        }
+
+        .nav-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0 10px;
+            margin-bottom: 8px;
+        }
+
         .nav-btn {
-            display: flex; align-items: center; gap: 12px; padding: 14px 18px;
-            color: #94a3b8; text-decoration: none; border-radius: 12px;
-            margin-bottom: 8px; transition: 0.3s all; cursor: pointer; border: none; background: none; 
-            width: 100%; text-align: left; font-weight: 600; font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 14px;
+            border-radius: var(--radius);
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-family: var(--font);
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s ease;
+            position: relative;
         }
-        .nav-btn i { font-size: 1.1rem; width: 25px; }
-        .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
-        .nav-btn.active { background: var(--primary); color: white; box-shadow: 0 10px 20px -5px rgba(0,119,182,0.5); }
 
-        /* --- 3. CUERPO E INFORMACIÓN (Rúbrica 3) --- */
-        main { background: var(--white); border-radius: 20px; padding: 30px; border: 1px solid #e2e8f0; }
-        .hero-card { 
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); 
-            border: 1px solid #bae6fd; padding: 25px; border-radius: 15px; margin-bottom: 30px; 
+        .nav-btn i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.95rem;
         }
-        .hero-card h4 { color: var(--primary-dark); margin-bottom: 10px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-        .hero-card p { font-size: 0.9rem; color: #0369a1; line-height: 1.6; }
 
-        /* TABLAS (CRUD - LEER) */
-        .table-ui { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .table-ui th { 
-            text-align: left; padding: 15px; color: var(--text-light); font-weight: 700; 
-            border-bottom: 2px solid #f1f5f9; text-transform: uppercase; font-size: 0.7rem; 
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
         }
-        .table-ui td { padding: 16px 15px; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
-        .table-ui tr:hover { background: #f8fafc; }
 
-        .action-icon { padding: 8px; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; font-size: 14px; }
-        .btn-edit { background: #fef9c3; color: #854d0e; margin-right: 8px; }
-        .btn-delete { background: #fee2e2; color: #991b1b; }
-        .action-icon:hover { transform: scale(1.1); }
-
-        /* --- 4. FORMULARIO CRUD (Rúbrica 2) --- */
-        .panel-form { 
-            background: var(--white); border-radius: 20px; padding: 30px; 
-            border: 1px solid #e2e8f0; height: fit-content; position: sticky; top: 25px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+        .nav-btn.active {
+            background: rgba(0,201,167,0.12);
+            color: var(--teal);
+            font-weight: 600;
         }
-        .panel-form h2 { font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--primary-dark); font-weight: 800; border-left: 5px solid var(--primary); padding-left: 15px; }
-        .group { margin-bottom: 18px; }
-        label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        input { 
-            width: 100%; padding: 12px 15px; border: 2px solid #f1f5f9; border-radius: 12px; 
-            font-size: 0.95rem; transition: 0.3s; background: #f8fafc; outline: none;
-        }
-        input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(0,119,182,0.1); }
 
-        .btn-save { 
-            width: 100%; padding: 15px; background: var(--primary); color: white; 
-            border: none; border-radius: 12px; font-weight: 700; cursor: pointer; 
-            transition: 0.3s; margin-top: 10px; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,119,182,0.2);
+        .nav-btn.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 3px;
+            background: var(--teal);
+            border-radius: 0 3px 3px 0;
         }
-        .btn-save:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        /* --- 5. FOOTER (Rúbrica 3) --- */
-        footer { background: #0f172a; color: #94a3b8; padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-logo { font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 15px; }
-        .footer-info { font-size: 0.85rem; line-height: 2; max-width: 600px; margin: 0 auto; }
-        .highlight { color: var(--accent); font-weight: 700; }
-
-        /* Status Toast */
-        #status { 
-            position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; 
-            border-radius: 12px; color: white; font-weight: 600; display: none; z-index: 1000;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        .nav-count {
+            margin-left: auto;
+            background: rgba(0,201,167,0.15);
+            color: var(--teal);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-family: var(--mono);
+            display: none;
         }
+
+        .nav-count.visible {
+            display: inline;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 14px 10px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-footer p {
+            font-size: 0.7rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ──────────────────────────────────────────
+           MAIN CONTENT
+        ────────────────────────────────────────── */
+        main {
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* Banner informativo */
+        .info-banner {
+            background: linear-gradient(135deg, rgba(0,201,167,0.08) 0%, rgba(56,189,248,0.06) 100%);
+            border: 1px solid rgba(0,201,167,0.2);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .info-banner-icon {
+            font-size: 1.4rem;
+            color: var(--teal);
+            margin-top: 2px;
+        }
+
+        .info-banner h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 5px;
+        }
+
+        .info-banner p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Encabezado de sección */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .record-count {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--muted);
+            background: var(--card-bg);
+            border: 1px solid var(--card-bdr);
+            padding: 5px 12px;
+            border-radius: 8px;
+        }
+
+        /* Stats rápidos */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-bdr);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: var(--mono);
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .stat-value.teal { color: var(--teal); }
+        .stat-value.sky  { color: var(--sky); }
+
+        /* Tabla */
+        .table-wrap {
+            background: var(--card-bg);
+            border: 1px solid var(--card-bdr);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            padding: 13px 16px;
+            text-align: left;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--card-bdr);
+        }
+
+        tbody td {
+            padding: 14px 16px;
+            font-size: 0.86rem;
+            color: rgba(255,255,255,0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover td {
+            background: rgba(255,255,255,0.025);
+        }
+
+        .mono {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--sky);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .pill-teal { background: rgba(0,201,167,0.12); color: var(--teal); }
+        .pill-sky  { background: rgba(56,189,248,0.12); color: var(--sky); }
+
+        /* Empty state */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+            opacity: 0.4;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* Botones acción tabla */
+        .action-btn {
+            padding: 6px 10px;
+            border-radius: 7px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: rgba(251,191,36,0.12);
+            color: var(--warning);
+            margin-right: 6px;
+        }
+
+        .btn-edit:hover {
+            background: rgba(251,191,36,0.22);
+            transform: translateY(-1px);
+        }
+
+        .btn-del {
+            background: rgba(248,113,113,0.12);
+            color: var(--danger);
+        }
+
+        .btn-del:hover {
+            background: rgba(248,113,113,0.22);
+            transform: translateY(-1px);
+        }
+
+        /* Loader */
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(0,201,167,0.2);
+            border-top-color: var(--teal);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ──────────────────────────────────────────
+           PANEL FORMULARIO
+        ────────────────────────────────────────── */
+        .form-panel {
+            background: var(--navy-mid);
+            border-left: 1px solid var(--border);
+            padding: 28px 24px;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .form-panel-header {
+            margin-bottom: 24px;
+        }
+
+        .form-mode-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,201,167,0.1);
+            border: 1px solid rgba(0,201,167,0.2);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .form-mode-badge.editing {
+            background: rgba(251,191,36,0.1);
+            border-color: rgba(251,191,36,0.25);
+            color: var(--warning);
+        }
+
+        #form-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.3px;
+        }
+
+        .field-group {
+            margin-bottom: 16px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 7px;
+        }
+
+        .field-group input,
+        .field-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--white);
+            font-family: var(--font);
+            font-size: 0.88rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .field-group input::placeholder { color: rgba(255,255,255,0.25); }
+
+        .field-group input:focus,
+        .field-group select:focus {
+            border-color: var(--teal);
+            background: rgba(0,201,167,0.06);
+            box-shadow: 0 0 0 3px rgba(0,201,167,0.1);
+        }
+
+        .field-group select option { background: var(--navy-mid); }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: var(--teal);
+            color: var(--navy);
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background: var(--teal-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,201,167,0.3);
+        }
+
+        .btn-cancel {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .btn-cancel:hover {
+            color: var(--white);
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .btn-cancel.visible { display: block; }
+
+        /* ──────────────────────────────────────────
+           FOOTER
+        ────────────────────────────────────────── */
+        footer {
+            background: var(--navy-mid);
+            border-top: 1px solid var(--border);
+            padding: 36px 40px;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            margin-bottom: 18px;
+        }
+
+        .footer-brand span { color: var(--teal); }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px 30px;
+            max-width: 680px;
+            margin: 0 auto 16px;
+        }
+
+        .footer-item {
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-align: left;
+        }
+
+        .footer-item strong {
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+        }
+
+        .footer-copy {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.15);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ──────────────────────────────────────────
+           TOAST
+        ────────────────────────────────────────── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { background: #064e3b; border: 1px solid #059669; color: #6ee7b7; }
+        .toast.error   { background: #450a0a; border: 1px solid #dc2626; color: #fca5a5; }
+        .toast.info    { background: #0c1a40; border: 1px solid var(--sky); color: var(--sky); }
     </style>
 </head>
 <body>
 
-<!-- ENCABEZADO -->
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
 <header>
-    <div class="logo-box">
-        <div class="logo-img"><i class="fas fa-tooth"></i></div>
-        <div class="logo-text">
-            <h1>DENTISTADG</h1>
-            <p>Clínica Odontológica Especializada</p>
+    <div class="logo-wrap">
+        <div class="logo-icon"><i class="fas fa-tooth"></i></div>
+        <div>
+            <div class="logo-text-main">DENTIST<span>ADG</span></div>
+            <div class="logo-sub">Clínica Odontológica Especializada</div>
         </div>
     </div>
-    <div style="text-align: right;">
-        <span style="font-size: 0.7rem; font-weight: 800; color: var(--text-light); display: block;">BDD STATUS</span>
-        <span style="color: var(--success); font-size: 0.9rem; font-weight: 700;"><i class="fas fa-database"></i> MongoDB Atlas Live</span>
+    <div class="db-badge">
+        <div class="db-dot"></div>
+        <i class="fas fa-database"></i>
+        MongoDB Atlas
     </div>
 </header>
 
-<div class="main-wrapper">
-    <!-- NAVEGACIÓN -->
-    <nav>
-        <h3>Módulos de Gestión</h3>
-        <button class="nav-btn active" onclick="changeTab('servicios', this)"><i class="fas fa-briefcase-medical"></i> Servicios</button>
-        <button class="nav-btn" onclick="changeTab('pacientes', this)"><i class="fas fa-user-injured"></i> Pacientes</button>
-        <button class="nav-btn" onclick="changeTab('odontologos', this)"><i class="fas fa-user-md"></i> Odontólogos</button>
-        <button class="nav-btn" onclick="changeTab('citas', this)"><i class="fas fa-calendar-check"></i> Citas</button>
-        <button class="nav-btn" onclick="changeTab('pagos', this)"><i class="fas fa-file-invoice-dollar"></i> Pagos</button>
-    </nav>
+<div class="layout">
 
-    <!-- CUERPO INFORMACIÓN -->
+    <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+    <aside class="sidebar">
+        <div class="nav-label">Módulos</div>
+
+        <button class="nav-btn active" data-tab="servicios" onclick="changeTab('servicios', this)">
+            <i class="fas fa-briefcase-medical"></i> Servicios
+            <span class="nav-count" id="cnt-servicios">—</span>
+        </button>
+        <button class="nav-btn" data-tab="pacientes" onclick="changeTab('pacientes', this)">
+            <i class="fas fa-user-injured"></i> Pacientes
+            <span class="nav-count" id="cnt-pacientes">—</span>
+        </button>
+        <button class="nav-btn" data-tab="odontologos" onclick="changeTab('odontologos', this)">
+            <i class="fas fa-user-md"></i> Odontólogos
+            <span class="nav-count" id="cnt-odontologos">—</span>
+        </button>
+        <button class="nav-btn" data-tab="citas" onclick="changeTab('citas', this)">
+            <i class="fas fa-calendar-check"></i> Citas
+            <span class="nav-count" id="cnt-citas">—</span>
+        </button>
+        <button class="nav-btn" data-tab="pagos" onclick="changeTab('pagos', this)">
+            <i class="fas fa-file-invoice-dollar"></i> Pagos
+            <span class="nav-count" id="cnt-pagos">—</span>
+        </button>
+
+        <div class="sidebar-footer">
+            <p>Diego A. Gómez Vázquez<br>
+            Matrícula: 24308051280845<br>
+            4-J Programación · CBTIS 128</p>
+        </div>
+    </aside>
+
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
     <main>
-        <div class="hero-card">
-            <h4><i class="fas fa-info-circle"></i> Gestión Clínica Normalizada</h4>
-            <p>Bienvenido al Panel Administrativo de <strong>DENTISTADG</strong>. Este sistema interactúa con una base de datos No Relacional en la nube, permitiendo la gestión eficiente de documentos médicos y colecciones de pacientes bajo estándares de normalización adecuados para el negocio.</p>
+        <div class="info-banner">
+            <div class="info-banner-icon"><i class="fas fa-circle-info"></i></div>
+            <div>
+                <h4>Gestión Clínica Normalizada</h4>
+                <p>Panel administrativo de <strong>DENTISTADG</strong> conectado a MongoDB Atlas en tiempo real. Gestión de documentos médicos y colecciones bajo estándares de bases de datos no relacionales.</p>
+            </div>
         </div>
 
-        <div id="section-header">
-            <h2 id="tab-title" style="font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 20px;">Catálogo de Servicios</h2>
+        <div class="section-header">
+            <h2 class="section-title" id="tab-title">Catálogo de Servicios</h2>
+            <span class="record-count" id="record-count">— registros</span>
         </div>
 
-        <div class="table-container">
-            <table class="table-ui">
+        <div class="stats-row" id="stats-row">
+            <!-- Inyectadas dinámicamente -->
+        </div>
+
+        <div class="table-wrap">
+            <table>
                 <thead id="table-head"></thead>
                 <tbody id="table-body">
-                    <!-- Datos dinámicos -->
+                    <tr><td colspan="10"><div class="loader"><div class="spinner"></div> Cargando datos de Atlas...</div></td></tr>
                 </tbody>
             </table>
         </div>
     </main>
 
-    <!-- PANEL CRUD -->
-    <aside class="panel-form">
-        <h2 id="form-title">Registrar Servicio</h2>
-        <input type="hidden" id="mongo-id">
-        <div id="dynamic-fields">
-            <!-- Campos dinámicos -->
+    <!-- ═══════════════════════════ FORM PANEL ═══════════════════════════ -->
+    <aside class="form-panel">
+        <div class="form-panel-header">
+            <div class="form-mode-badge" id="mode-badge">
+                <i class="fas fa-plus"></i> Nuevo registro
+            </div>
+            <h2 id="form-title">Registrar Servicio</h2>
         </div>
-        <button class="btn-save" onclick="handleSubmit()"><i class="fas fa-cloud-upload-alt"></i> Sincronizar Atlas</button>
+
+        <input type="hidden" id="mongo-id">
+        <div id="dynamic-fields"></div>
+
+        <button class="btn-submit" onclick="handleSubmit()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span id="submit-label">Guardar en Atlas</span>
+        </button>
+        <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">
+            <i class="fas fa-times"></i> Cancelar edición
+        </button>
     </aside>
+
 </div>
 
-<!-- FOOTER DETALLADO -->
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <footer>
-    <div class="footer-logo">DENTISTADG</div>
-    <div class="footer-info">
-        <p>Alumno: <span class="highlight">Diego Alejandro Gomez Vazquez</span></p>
-        <p>Matrícula: <span class="highlight">24308051280845</span> | Grupo: <span class="highlight">4-J Programación</span></p>
-        <p>Submódulo: <span class="highlight">Bases de Datos No Relacionales</span></p>
-        <p>Docente: <span class="highlight">M.E.E. Leticia Meza Diaz</span></p>
-        <p style="margin-top: 20px; opacity: 0.5;">© 2026 Dentistadg Cloud Systems - Todos los derechos reservados.</p>
+    <div class="footer-brand">DENTIST<span>ADG</span></div>
+    <div class="footer-grid">
+        <div class="footer-item"><strong>Alumno</strong><br>Diego A. Gómez Vázquez</div>
+        <div class="footer-item"><strong>Matrícula</strong><br>24308051280845</div>
+        <div class="footer-item"><strong>Grupo</strong><br>4-J Programación</div>
+        <div class="footer-item"><strong>Submódulo</strong><br>Bases de Datos No Relacionales</div>
+        <div class="footer-item"><strong>Docente</strong><br>M.E.E. Leticia Meza Diaz</div>
+        <div class="footer-item"><strong>Plantel</strong><br>CBTIS 128</div>
     </div>
+    <div class="footer-copy">© 2026 DENTISTADG Cloud Systems · Todos los derechos reservados.</div>
 </footer>
 
-<div id="status"></div>
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i id="toast-icon" class="fas fa-check-circle"></i>
+    <span id="toast-msg"></span>
+</div>
 
 <script>
-    let currentTab = 'servicios';
+/* ═══════════════════════════════════════════════════════════════
+   CONFIGURACIÓN DE COLECCIONES
+════════════════════════════════════════════════════════════════*/
+const TABS = {
+    servicios: {
+        title: 'Catálogo de Servicios',
+        formTitle: 'Registrar Servicio',
+        headers: ['Código', 'Tratamiento', 'Costo', 'Acciones'],
+        fields: [
+            { id: 'codigo',      label: 'Código de Servicio', type: 'text', placeholder: 'SRV-001' },
+            { id: 'nombre',      label: 'Nombre del Tratamiento', type: 'text', placeholder: 'Limpieza dental' },
+            { id: 'precio',      label: 'Costo Unitario ($)', type: 'number', placeholder: '350' },
+            { id: 'descripcion', label: 'Descripción', type: 'text', placeholder: 'Descripción breve' }
+        ],
+        render: item => `
+            <td class="mono">${v(item.codigo)}</td>
+            <td>${v(item.nombre)}</td>
+            <td><span class="pill pill-teal">$${v(item.precio)}</span></td>
+        `,
+        stats: data => [
+            { label: 'Total servicios', value: data.length, cls: 'teal' },
+            { label: 'Precio mínimo', value: data.length ? '$' + Math.min(...data.map(d => +d.precio || 0)) : '—', cls: '' },
+            { label: 'Precio máximo', value: data.length ? '$' + Math.max(...data.map(d => +d.precio || 0)) : '—', cls: 'sky' }
+        ]
+    },
 
-    // CONFIGURACIÓN DE CAMPOS (Sincronizado con nombres de tu MongoDB Atlas)
-    const config = {
-        servicios: {
-            title: "Catálogo de Servicios",
-            fields: [
-                { id: 'codigo', label: 'Código de Servicio', type: 'text' },
-                { id: 'nombre', label: 'Nombre del Tratamiento', type: 'text' },
-                { id: 'precio', label: 'Costo Unitario ($)', type: 'number' }
-            ],
-            headers: ['Código', 'Tratamiento', 'Costo', 'Acciones']
-        },
-        pacientes: {
-            title: "Registro de Pacientes",
-            fields: [
-                { id: 'id_paciente', label: 'ID Interno', type: 'text' },
-                { id: 'nombre', label: 'Nombre(s)', type: 'text' },
-                { id: 'apellidos', label: 'Apellidos', type: 'text' },
-                { id: 'edad', label: 'Edad', type: 'number' },
-                { id: 'telefono', label: 'Contacto', type: 'text' }
-            ],
-            headers: ['ID', 'Paciente', 'Edad', 'Contacto', 'Acciones']
-        },
-        odontologos: {
-            title: "Plantilla de Odontólogos",
-            fields: [
-                { id: 'nombre', label: 'Nombre Completo', type: 'text' },
-                { id: 'especialidad', label: 'Especialidad Médica', type: 'text' },
-                { id: 'cedula', label: 'Cédula Profesional', type: 'text' },
-                { id: 'horario', label: 'Turno / Horario', type: 'text' }
-            ],
-            headers: ['Médico', 'Especialidad', 'Cédula', 'Turno', 'Acciones']
-        },
-        citas: {
-            title: "Agenda de Citas",
-            fields: [
-                { id: 'paciente', label: 'Paciente', type: 'text' },
-                { id: 'doctor', label: 'Odontólogo', type: 'text' },
-                { id: 'fecha', label: 'Fecha Programada', type: 'date' },
-                { id: 'hora', label: 'Hora', type: 'time' }
-            ],
-            headers: ['Paciente', 'Médico', 'Fecha', 'Hora', 'Acciones']
-        },
-        pagos: {
-            title: "Control de Pagos",
-            fields: [
-                { id: 'paciente', label: 'Paciente', type: 'text' },
-                { id: 'servicio', label: 'Concepto', type: 'text' },
-                { id: 'total', label: 'Total $', type: 'number' },
-                { id: 'pagado', label: 'Abonado $', type: 'number' }
-            ],
-            headers: ['Paciente', 'Concepto', 'Total', 'Abono', 'Acciones']
+    pacientes: {
+        title: 'Registro de Pacientes',
+        formTitle: 'Registrar Paciente',
+        headers: ['ID', 'Nombre Completo', 'Edad', 'Sexo', 'Contacto', 'Acciones'],
+        fields: [
+            { id: 'id_paciente', label: 'ID Interno', type: 'text', placeholder: 'PAC-001' },
+            { id: 'nombre',      label: 'Nombre(s)', type: 'text', placeholder: 'Juan' },
+            { id: 'apellidos',   label: 'Apellidos', type: 'text', placeholder: 'García López' },
+            { id: 'sexo',        label: 'Sexo', type: 'select', options: ['Masculino', 'Femenino', 'Otro'] },
+            { id: 'edad',        label: 'Edad', type: 'number', placeholder: '25' },
+            { id: 'telefono',    label: 'Teléfono', type: 'text', placeholder: '656-000-0000' },
+            { id: 'fecha_nac',   label: 'Fecha de Nacimiento', type: 'date' },
+            { id: 'direccion',   label: 'Dirección', type: 'text', placeholder: 'Calle, Colonia, Ciudad' }
+        ],
+        render: item => `
+            <td class="mono">${v(item.id_paciente)}</td>
+            <td>${v(item.nombre)} ${v(item.apellidos)}</td>
+            <td>${v(item.edad)} años</td>
+            <td><span class="pill pill-sky">${v(item.sexo)}</span></td>
+            <td>${v(item.telefono)}</td>
+        `,
+        stats: data => [
+            { label: 'Total pacientes', value: data.length, cls: 'teal' },
+            { label: 'Edad promedio', value: data.length ? Math.round(data.reduce((a,d) => a + (+d.edad||0), 0) / data.length) + ' años' : '—', cls: '' },
+            { label: 'Registros activos', value: data.length, cls: 'sky' }
+        ]
+    },
+
+    odontologos: {
+        title: 'Plantilla de Odontólogos',
+        formTitle: 'Registrar Odontólogo',
+        headers: ['ID', 'Médico', 'Especialidad', 'Cédula', 'Turno', 'Acciones'],
+        fields: [
+            { id: 'id_od',       label: 'ID Odontólogo', type: 'text', placeholder: 'OD-001' },
+            { id: 'nombre',      label: 'Nombre Completo', type: 'text', placeholder: 'Dr. Roberto Sánchez' },
+            { id: 'especialidad',label: 'Especialidad', type: 'text', placeholder: 'Ortodoncia' },
+            { id: 'cedula',      label: 'Cédula Profesional', type: 'text', placeholder: '12345678' },
+            { id: 'horario',     label: 'Turno / Horario', type: 'text', placeholder: 'Matutino 8:00–14:00' }
+        ],
+        render: item => `
+            <td class="mono">${v(item.id_od)}</td>
+            <td>${v(item.nombre)}</td>
+            <td><span class="pill pill-teal">${v(item.especialidad)}</span></td>
+            <td class="mono">${v(item.cedula)}</td>
+            <td>${v(item.horario)}</td>
+        `,
+        stats: data => [
+            { label: 'Odontólogos', value: data.length, cls: 'teal' },
+            { label: 'Especialidades', value: new Set(data.map(d => d.especialidad)).size, cls: 'sky' },
+            { label: 'Turnos activos', value: new Set(data.map(d => d.horario)).size, cls: '' }
+        ]
+    },
+
+    citas: {
+        title: 'Agenda de Citas',
+        formTitle: 'Programar Cita',
+        headers: ['ID', 'Paciente', 'Odontólogo', 'Servicio', 'Fecha', 'Hora', 'Acciones'],
+        fields: [
+            { id: 'id_cita',  label: 'ID de Cita', type: 'text', placeholder: 'CIT-001' },
+            { id: 'paciente', label: 'Paciente', type: 'text', placeholder: 'Nombre del paciente' },
+            { id: 'doctor',   label: 'Odontólogo', type: 'text', placeholder: 'Nombre del doctor' },
+            { id: 'servicio', label: 'Servicio', type: 'text', placeholder: 'Limpieza dental' },
+            { id: 'fecha',    label: 'Fecha', type: 'date' },
+            { id: 'hora',     label: 'Hora', type: 'time' },
+            { id: 'notas',    label: 'Notas / Indicaciones', type: 'text', placeholder: 'Observaciones...' }
+        ],
+        render: item => `
+            <td class="mono">${v(item.id_cita)}</td>
+            <td>${v(item.paciente)}</td>
+            <td>${v(item.doctor)}</td>
+            <td>${v(item.servicio)}</td>
+            <td>${formatDate(item.fecha)}</td>
+            <td>${v(item.hora)}</td>
+        `,
+        stats: data => {
+            const today = new Date().toISOString().split('T')[0];
+            const hoy   = data.filter(d => d.fecha && d.fecha.startsWith(today)).length;
+            return [
+                { label: 'Total citas', value: data.length, cls: 'teal' },
+                { label: 'Hoy', value: hoy, cls: hoy > 0 ? 'sky' : '' },
+                { label: 'Con notas', value: data.filter(d => d.notas).length, cls: '' }
+            ];
         }
-    };
+    },
 
-    function changeTab(tab, el) {
-        currentTab = tab;
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        document.getElementById('tab-title').innerText = config[tab].title;
-        renderUI();
+    pagos: {
+        title: 'Control de Pagos',
+        formTitle: 'Registrar Pago',
+        headers: ['Folio', 'Paciente', 'Servicio', 'Total', 'Abono', 'Saldo', 'Método', 'Acciones'],
+        fields: [
+            { id: 'folio',    label: 'Folio', type: 'text', placeholder: 'PAG-001' },
+            { id: 'paciente', label: 'Paciente', type: 'text', placeholder: 'Nombre del paciente' },
+            { id: 'servicio', label: 'Concepto / Servicio', type: 'text', placeholder: 'Limpieza dental' },
+            { id: 'total',    label: 'Total $', type: 'number', placeholder: '500' },
+            { id: 'pagado',   label: 'Abonado $', type: 'number', placeholder: '300' },
+            { id: 'saldo',    label: 'Saldo $', type: 'number', placeholder: '200' },
+            { id: 'metodo',   label: 'Método de Pago', type: 'select', options: ['Efectivo', 'Transferencia', 'Tarjeta', 'Otro'] },
+            { id: 'fecha',    label: 'Fecha', type: 'date' }
+        ],
+        render: item => {
+            const saldo = +item.saldo || 0;
+            const saldoCls = saldo <= 0 ? 'pill-teal' : 'pill-sky';
+            return `
+                <td class="mono">${v(item.folio)}</td>
+                <td>${v(item.paciente)}</td>
+                <td>${v(item.servicio)}</td>
+                <td>$${v(item.total)}</td>
+                <td>$${v(item.pagado)}</td>
+                <td><span class="pill ${saldoCls}">$${v(item.saldo)}</span></td>
+                <td>${v(item.metodo)}</td>
+            `;
+        },
+        stats: data => {
+            const total    = data.reduce((a, d) => a + (+d.total  || 0), 0);
+            const pagado   = data.reduce((a, d) => a + (+d.pagado || 0), 0);
+            const pendiente= data.reduce((a, d) => a + (+d.saldo  || 0), 0);
+            return [
+                { label: 'Facturado total', value: '$' + total.toLocaleString(), cls: 'teal' },
+                { label: 'Cobrado', value: '$' + pagado.toLocaleString(), cls: 'sky' },
+                { label: 'Por cobrar', value: '$' + pendiente.toLocaleString(), cls: pendiente > 0 ? '' : 'teal' }
+            ];
+        }
+    }
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   ESTADO
+════════════════════════════════════════════════════════════════*/
+let currentTab  = 'servicios';
+let currentData = [];
+let editingId   = null;
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILIDADES
+════════════════════════════════════════════════════════════════*/
+const v = x => (x !== undefined && x !== null && x !== '') ? x : '—';
+
+function formatDate(s) {
+    if (!s) return '—';
+    const d = new Date(s + (s.includes('T') ? '' : 'T00:00:00'));
+    return isNaN(d) ? s : d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function toast(msg, type = 'success') {
+    const t  = document.getElementById('toast');
+    const ic = document.getElementById('toast-icon');
+    const ms = document.getElementById('toast-msg');
+    const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+    ic.className = `fas ${icons[type] || icons.success}`;
+    ms.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.className = `toast ${type}`, 3200);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDERIZADO DE UI
+════════════════════════════════════════════════════════════════*/
+function changeTab(tab, el) {
+    currentTab = tab;
+    editingId  = null;
+
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+
+    const cfg = TABS[tab];
+    document.getElementById('tab-title').textContent   = cfg.title;
+    document.getElementById('form-title').textContent  = cfg.formTitle;
+    document.getElementById('submit-label').textContent = 'Guardar en Atlas';
+    document.getElementById('mongo-id').value = '';
+
+    const badge = document.getElementById('mode-badge');
+    badge.className = 'form-mode-badge';
+    badge.innerHTML = '<i class="fas fa-plus"></i> Nuevo registro';
+
+    document.getElementById('btn-cancel').classList.remove('visible');
+
+    buildFields(cfg);
+    fetchData();
+}
+
+function buildFields(cfg) {
+    const container = document.getElementById('dynamic-fields');
+    container.innerHTML = '';
+    cfg.fields.forEach(f => {
+        const wrap = document.createElement('div');
+        wrap.className = 'field-group';
+        if (f.type === 'select') {
+            wrap.innerHTML = `
+                <label>${f.label}</label>
+                <select id="f-${f.id}">
+                    ${f.options.map(o => `<option>${o}</option>`).join('')}
+                </select>
+            `;
+        } else {
+            wrap.innerHTML = `
+                <label>${f.label}</label>
+                <input type="${f.type}" id="f-${f.id}" placeholder="${f.placeholder || ''}">
+            `;
+        }
+        container.appendChild(wrap);
+    });
+}
+
+function renderStats(data) {
+    const cfg      = TABS[currentTab];
+    const row      = document.getElementById('stats-row');
+    const statDefs = cfg.stats(data);
+    row.innerHTML  = statDefs.map(s => `
+        <div class="stat-card">
+            <div class="stat-label">${s.label}</div>
+            <div class="stat-value ${s.cls}">${s.value}</div>
+        </div>
+    `).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   API CALLS
+════════════════════════════════════════════════════════════════*/
+async function fetchData() {
+    const body = document.getElementById('table-body');
+    body.innerHTML = `<tr><td colspan="10"><div class="loader"><div class="spinner"></div> Consultando Atlas...</div></td></tr>`;
+
+    try {
+        const res  = await fetch(`/api/${currentTab}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        currentData = data;
+
+        // Actualizar contador en sidebar
+        const cnt = document.getElementById(`cnt-${currentTab}`);
+        if (cnt) { cnt.textContent = data.length; cnt.classList.add('visible'); }
+
+        document.getElementById('record-count').textContent = `${data.length} registro${data.length !== 1 ? 's' : ''}`;
+        renderStats(data);
+        renderTable(data);
+
+    } catch (e) {
+        console.error(e);
+        body.innerHTML = `<tr><td colspan="10">
+            <div class="empty-state">
+                <i class="fas fa-triangle-exclamation"></i>
+                <p>No se pudo conectar con la API.<br>Verifica que el servidor esté activo y <code>MONGO_URI</code> configurado.</p>
+            </div>
+        </td></tr>`;
+        toast('Error al cargar datos de Atlas', 'error');
+    }
+}
+
+function renderTable(data) {
+    const cfg  = TABS[currentTab];
+    const head = document.getElementById('table-head');
+    const body = document.getElementById('table-body');
+
+    head.innerHTML = '<tr>' + cfg.headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+
+    if (!data.length) {
+        body.innerHTML = `<tr><td colspan="${cfg.headers.length}">
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No hay registros aún. ¡Añade el primero usando el formulario!</p>
+            </div>
+        </td></tr>`;
+        return;
     }
 
-    function renderUI() {
-        const head = document.getElementById('table-head');
-        let hHtml = '<tr>';
-        config[currentTab].headers.forEach(h => hHtml += `<th>${h}</th>`);
-        head.innerHTML = hHtml + '</tr>';
+    body.innerHTML = '';
+    data.forEach(item => {
+        const tr   = document.createElement('tr');
+        const safe = JSON.stringify(item).replace(/'/g, '&#39;');
+        tr.innerHTML = cfg.render(item) + `
+            <td>
+                <button class="action-btn btn-edit" onclick='editItem(${safe})'>
+                    <i class="fas fa-pen"></i> Editar
+                </button>
+                <button class="action-btn btn-del" onclick='deleteItem("${item._id}")'>
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+        body.appendChild(tr);
+    });
+}
 
-        const fields = document.getElementById('dynamic-fields');
-        fields.innerHTML = '';
-        config[currentTab].fields.forEach(f => {
-            fields.innerHTML += `<div class="group"><label>${f.label}</label><input type="${f.type}" id="f-${f.id}"></div>`;
+/* ═══════════════════════════════════════════════════════════════
+   CRUD HANDLERS
+════════════════════════════════════════════════════════════════*/
+async function handleSubmit() {
+    const id      = document.getElementById('mongo-id').value;
+    const payload = {};
+    TABS[currentTab].fields.forEach(f => {
+        const el = document.getElementById(`f-${f.id}`);
+        payload[f.id] = el ? el.value : '';
+    });
+
+    // Validación básica: al menos 1 campo no vacío
+    const hasData = Object.values(payload).some(v => v !== '');
+    if (!hasData) { toast('Completa al menos un campo', 'info'); return; }
+
+    const method = id ? 'PUT' : 'POST';
+    const url    = id ? `/api/${currentTab}/${id}` : `/api/${currentTab}`;
+
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
-        document.getElementById('mongo-id').value = '';
-        document.getElementById('form-title').innerText = "Registrar " + currentTab.slice(0,-1);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        toast(id ? '✓ Registro actualizado en Atlas' : '✓ Guardado en MongoDB Atlas', 'success');
+        cancelEdit();
         fetchData();
+    } catch (e) {
+        console.error(e);
+        toast('Error de sincronización con Atlas', 'error');
     }
+}
 
-    // OPERACIONES CRUD (Rúbrica 2)
-    async function fetchData() {
+async function deleteItem(id) {
+    if (!confirm('¿Eliminar este documento de MongoDB Atlas?')) return;
+    try {
+        const res = await fetch(`/api/${currentTab}/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error();
+        toast('Documento eliminado de Atlas', 'error');
+        fetchData();
+    } catch (e) {
+        toast('Error al eliminar', 'error');
+    }
+}
+
+function editItem(item) {
+    editingId = item._id;
+    document.getElementById('mongo-id').value = item._id;
+
+    TABS[currentTab].fields.forEach(f => {
+        const el = document.getElementById(`f-${f.id}`);
+        if (el) el.value = item[f.id] || '';
+    });
+
+    document.getElementById('form-title').textContent   = 'Editar Registro';
+    document.getElementById('submit-label').textContent  = 'Actualizar en Atlas';
+
+    const badge = document.getElementById('mode-badge');
+    badge.className = 'form-mode-badge editing';
+    badge.innerHTML = '<i class="fas fa-pen"></i> Modo edición';
+
+    document.getElementById('btn-cancel').classList.add('visible');
+
+    // Scroll suave al formulario en móvil
+    document.querySelector('.form-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function cancelEdit() {
+    editingId = null;
+    document.getElementById('mongo-id').value = '';
+    TABS[currentTab].fields.forEach(f => {
+        const el = document.getElementById(`f-${f.id}`);
+        if (el) el.value = '';
+    });
+
+    document.getElementById('form-title').textContent   = TABS[currentTab].formTitle;
+    document.getElementById('submit-label').textContent  = 'Guardar en Atlas';
+
+    const badge = document.getElementById('mode-badge');
+    badge.className = 'form-mode-badge';
+    badge.innerHTML = '<i class="fas fa-plus"></i> Nuevo registro';
+
+    document.getElementById('btn-cancel').classList.remove('visible');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════════════*/
+window.addEventListener('DOMContentLoaded', () => {
+    const cfg = TABS[currentTab];
+    buildFields(cfg);
+    fetchData();
+
+    // Pre-cargar contadores de todas las colecciones
+    Object.keys(TABS).forEach(async tab => {
         try {
-            const res = await fetch(`/api/${currentTab}`);
+            const res  = await fetch(`/api/${tab}`);
             const data = await res.json();
-            const body = document.getElementById('table-body');
-            body.innerHTML = '';
-
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-                let html = '';
-                
-                if(currentTab === 'servicios') html = `<td>${item.codigo}</td><td>${item.nombre}</td><td>$${item.precio}</td>`;
-                if(currentTab === 'pacientes') html = `<td>${item.id_paciente}</td><td>${item.nombre} ${item.apellidos}</td><td>${item.edad}</td><td>${item.telefono}</td>`;
-                if(currentTab === 'odontologos') html = `<td>${item.nombre}</td><td>${item.especialidad}</td><td>${item.cedula}</td><td>${item.horario}</td>`;
-                if(currentTab === 'citas') html = `<td>${item.paciente}</td><td>${item.doctor}</td><td>${item.fecha}</td><td>${item.hora}</td>`;
-                if(currentTab === 'pagos') html = `<td>${item.paciente}</td><td>${item.servicio}</td><td>$${item.total}</td><td>$${item.pagado}</td>`;
-
-                html += `<td>
-                    <button class="action-icon btn-edit" onclick='editItem(${JSON.stringify(item)})'><i class="fas fa-edit"></i></button>
-                    <button class="action-icon btn-delete" onclick='deleteItem("${item._id}")'><i class="fas fa-trash-alt"></i></button>
-                </td>`;
-                tr.innerHTML = html;
-                body.appendChild(tr);
-            });
-        } catch (e) { console.error(e); }
-    }
-
-    async function handleSubmit() {
-        const id = document.getElementById('mongo-id').value;
-        const payload = {};
-        config[currentTab].fields.forEach(f => {
-            payload[f.id] = document.getElementById(`f-${f.id}`).value;
-        });
-
-        const method = id ? 'PUT' : 'POST';
-        const url = id ? `/api/${currentTab}/${id}` : `/api/${currentTab}`;
-
-        try {
-            const res = await fetch(url, {
-                method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            if(res.ok) {
-                notify(id ? "Registro Actualizado" : "Registro Guardado en MongoDB", "success");
-                renderUI();
-            }
-        } catch (e) { notify("Error de Sincronización", "danger"); }
-    }
-
-    async function deleteItem(id) {
-        if(!confirm("¿Eliminar documento de MongoDB Atlas?")) return;
-        try {
-            const res = await fetch(`/api/${currentTab}/${id}`, { method: 'DELETE' });
-            if(res.ok) {
-                notify("Documento Eliminado de la BDD", "danger");
-                fetchData();
-            }
-        } catch (e) { alert("Error"); }
-    }
-
-    function editItem(item) {
-        document.getElementById('mongo-id').value = item._id;
-        config[currentTab].fields.forEach(f => {
-            document.getElementById(`f-${f.id}`).value = item[f.id] || '';
-        });
-        document.getElementById('form-title').innerText = "Editando Registro";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function notify(text, type) {
-        const toast = document.getElementById('status');
-        toast.innerText = text;
-        toast.style.display = 'block';
-        toast.style.background = type === 'success' ? '#10b981' : '#ef4444';
-        setTimeout(() => toast.style.display = 'none', 3000);
-    }
-
-    window.onload = () => { renderUI(); };
+            const el   = document.getElementById(`cnt-${tab}`);
+            if (el) { el.textContent = data.length; el.classList.add('visible'); }
+        } catch {}
+    });
+});
 </script>
+
 </body>
 </html>
