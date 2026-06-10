@@ -3,332 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DENTISTADG - Gestión Clínica PRO</title>
+    <title>DENTISTADG - Gestión de Servicios</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f4f8; display: flex; min-height: 100vh; flex-direction: column; }
+        :root {
+            --primary: #0077b6;
+            --secondary: #00b4d8;
+            --light: #f0f9ff;
+            --dark: #03045e;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f1c40f;
+        }
 
-        header { background-color: white; padding: 18px; text-align: center; border-bottom: 5px solid #0077b6; }
-        h1 { color: #0077b6; text-transform: uppercase; letter-spacing: 2px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-        .sitio-wrapper { display: grid; grid-template-columns: 200px 1fr 380px; gap: 20px; flex: 1; padding: 20px; }
+        body { background-color: #f4f7f6; display: flex; min-height: 100vh; flex-direction: column; }
 
-        nav { background-color: #0077b6; padding: 20px 10px; border-radius: 10px; align-self: flex-start; position: sticky; top: 20px; }
-        nav a { color: white; text-decoration: none; padding: 10px; font-weight: 600; border-radius: 6px; font-size: 12px; display: block; margin-bottom: 5px; transition: 0.3s; }
-        nav a:hover, nav a.activo { background-color: rgba(255,255,255,0.2); color: #ade8f4; padding-left: 15px; }
+        /* ── 3.1 ENCABEZADO CON LOGO ── */
+        header {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 4px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo-container {
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        header h1 { color: var(--primary); letter-spacing: 3px; font-size: 28px; }
 
-        .contenido-centro { background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); min-height: 500px; }
+        /* ── LAYOUT PRINCIPAL ── */
+        .sitio-wrapper {
+            display: grid;
+            grid-template-columns: 220px 1fr 350px;
+            gap: 20px;
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* ── 3.2 BARRA DE NAVEGACIÓN FUNCIONAL ── */
+        nav {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 15px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        nav h4 { color: #ade8f4; font-size: 12px; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid #ffffff33; padding-bottom: 5px; }
+        nav button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+        }
+        nav button:hover, nav button.active { background: var(--primary); color: white; padding-left: 20px; }
+
+        /* ── 3.3 CUERPO INFORMACIÓN DEL NEGOCIO ── */
+        main {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .info-negocio {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+        }
+        .info-negocio p { font-size: 14px; color: #555; line-height: 1.5; }
+
         .seccion { display: none; }
-        .seccion.activa { display: block; }
+        .seccion.active { display: block; }
 
-        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 15px; }
-        table th, table td { border: 1px solid #e0f0f8; padding: 10px; text-align: left; }
-        table th { background-color: #0077b6; color: white; }
-        tr:hover { background-color: #f1f9ff; }
+        /* ── TABLAS (CRUD LEER) ── */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+        table th { background: var(--primary); color: white; padding: 12px; text-align: left; }
+        table td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background: #f9f9f9; }
 
-        .btn-edit { background: #f39c12; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-        .btn-del { background: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+        /* Botones de acción */
+        .btn-acc { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 11px; margin-right: 3px; }
+        .btn-edit { background: var(--warning); color: #333; }
+        .btn-delete { background: var(--danger); }
 
-        .formulario-derecha { background-color: white; padding: 20px; border-radius: 10px; border-top: 5px solid #0077b6; position: sticky; top: 20px; }
-        .form-panel { display: none; }
-        .form-panel.activo { display: block; }
-        .form-group { margin-bottom: 10px; }
-        label { display: block; font-size: 11px; font-weight: 700; color: #0077b6; text-transform: uppercase; margin-bottom: 3px; }
-        input, select { width: 100%; padding: 8px; border: 2px solid #d0e8f8; border-radius: 6px; }
+        /* ── FORMULARIOS (CRUD AGREGAR/ACTUALIZAR) ── */
+        .panel-derecho {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
+        input, select, textarea {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; outline: none;
+        }
+        input:focus { border-color: var(--primary); }
 
-        .btn-submit { background-color: #0077b6; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-        .btn-cancel { background-color: #95a5a6; color: white; border: none; padding: 8px; width: 100%; border-radius: 6px; cursor: pointer; margin-top: 5px; display: none; }
+        .btn-main {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-main:hover { background: var(--dark); }
 
-        .mensaje-exito { display: none; background: #d5f5e3; color: #1e8449; padding: 10px; border-radius: 6px; margin-top: 10px; text-align: center; }
+        #btn-cancel {
+            background: #95a5a6;
+            margin-top: 8px;
+            display: none;
+        }
 
-        footer { background-color: #1a1a2e; color: #aaa; text-align: center; padding: 15px; font-size: 12px; }
+        /* ── 3.4 FOOTER ── */
+        footer {
+            background: var(--dark);
+            color: #bdc3c7;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+        footer strong { color: white; }
+        footer .datos-alumno { margin-top: 10px; color: var(--secondary); font-size: 12px; }
+
+        /* Notificaciones */
+        .toast {
+            display: none;
+            background: var(--success);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
 <header>
+    <div class="logo-container">🦷</div>
     <h1>DENTISTADG</h1>
-    <p>Gestión Dental Profesional - Diego Alejandro Gomez</p>
+    <p>Clínica de Especialidades Odontológicas</p>
 </header>
 
 <div class="sitio-wrapper">
+    <!-- NAVEGACIÓN -->
     <nav>
-        <a href="#" class="activo" onclick="mostrarSeccion('inicio', this)">🏠 Inicio</a>
-        <a href="#" onclick="mostrarSeccion('pacientes', this)">🧑‍🤝‍🧑 Pacientes</a>
-        <a href="#" onclick="mostrarSeccion('odontologos', this)">👨‍⚕️ Odontólogos</a>
-        <a href="#" onclick="mostrarSeccion('citas', this)">📅 Citas</a>
-        <a href="#" onclick="mostrarSeccion('pagos', this)">💳 Pagos</a>
+        <h4>Administración</h4>
+        <button class="active" onclick="switchTab('productos', this)">📦 Productos/Servicios</button>
+        <button onclick="switchTab('pacientes', this)">🧑‍🤝‍🧑 Pacientes</button>
+        <button onclick="switchTab('odontologos', this)">👨‍⚕️ Odontólogos</button>
     </nav>
 
-    <main class="contenido-centro">
-        <div id="sec-inicio" class="seccion activa">
-            <h2>Panel de Control</h2>
-            <p>Bienvenido al sistema. Seleccione una categoría para ver, editar o eliminar registros de MongoDB Atlas.</p>
+    <!-- CUERPO PRINCIPAL -->
+    <main>
+        <div class="info-negocio">
+            <strong>Sobre el Negocio:</strong>
+            <p>DENTISTADG ofrece servicios odontológicos de alta calidad. Este panel permite gestionar el catálogo de productos y servicios médicos de forma normalizada con nuestra base de datos No Relacional en MongoDB Atlas.</p>
         </div>
 
-        <!-- TABLA PACIENTES -->
+        <!-- SECCIÓN PRODUCTOS (REQUERIDA POR RÚBRICA) -->
+        <div id="sec-productos" class="seccion active">
+            <h2>Gestión de Productos y Servicios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre del Servicio</th>
+                        <th>Precio</th>
+                        <th>Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-productos">
+                    <!-- Datos cargados desde MongoDB -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN PACIENTES -->
         <div id="sec-pacientes" class="seccion">
-            <h2>Lista de Pacientes</h2>
+            <h2>Registro de Pacientes</h2>
             <table>
                 <thead>
-                    <tr><th>ID</th><th>Nombre</th><th>Edad</th><th>Teléfono</th><th>Acciones</th></tr>
+                    <tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Acciones</th></tr>
                 </thead>
-                <tbody id="tabla-pacientes"></tbody>
+                <tbody id="lista-pacientes"></tbody>
             </table>
         </div>
-
-        <!-- TABLA ODONTOLOGOS -->
+        
+        <!-- SECCIÓN ODONTOLOGOS -->
         <div id="sec-odontologos" class="seccion">
-            <h2>Especialistas</h2>
+            <h2>Plantilla de Especialistas</h2>
             <table>
                 <thead>
-                    <tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Horario</th><th>Acciones</th></tr>
+                    <tr><th>Nombre</th><th>Especialidad</th><th>Cédula</th><th>Acciones</th></tr>
                 </thead>
-                <tbody id="tabla-odontologos"></tbody>
-            </table>
-        </div>
-
-        <!-- TABLA CITAS -->
-        <div id="sec-citas" class="seccion">
-            <h2>Agenda de Citas</h2>
-            <table>
-                <thead>
-                    <tr><th>Paciente</th><th>Doctor</th><th>Fecha/Hora</th><th>Acciones</th></tr>
-                </thead>
-                <tbody id="tabla-citas"></tbody>
-            </table>
-        </div>
-
-        <!-- TABLA PAGOS -->
-        <div id="sec-pagos" class="seccion">
-            <h2>Pagos Registrados</h2>
-            <table>
-                <thead>
-                    <tr><th>Paciente</th><th>Servicio</th><th>Saldo</th><th>Acciones</th></tr>
-                </thead>
-                <tbody id="tabla-pagos"></tbody>
+                <tbody id="lista-odontologos"></tbody>
             </table>
         </div>
     </main>
 
-    <aside class="formulario-derecha">
-        <!-- FORM PACIENTES -->
-        <div id="form-pacientes" class="form-panel">
-            <h3 id="titulo-pac">➕ Nuevo Paciente</h3>
-            <input type="hidden" id="f-pac-mongo-id">
-            <div class="form-group"><label>ID Personalizado</label><input type="text" id="f-pac-id"></div>
-            <div class="form-group"><label>Nombre</label><input type="text" id="f-pac-nombre"></div>
-            <div class="form-group"><label>Apellidos</label><input type="text" id="f-pac-apellidos"></div>
-            <div class="form-group"><label>Edad</label><input type="number" id="f-pac-edad"></div>
-            <div class="form-group"><label>Teléfono</label><input type="text" id="f-pac-tel"></div>
-            <button class="btn-submit" id="btn-pac" onclick="guardarPaciente()">Guardar en MongoDB</button>
-            <button class="btn-cancel" id="btn-cancel-pac" onclick="cancelarEdicion('pacientes')">Cancelar Edición</button>
-            <div id="msg-pac" class="mensaje-exito">Acción realizada con éxito</div>
+    <!-- FORMULARIO DERECHO (CRUD AGREGAR/EDITAR) -->
+    <aside class="panel-derecho">
+        <h3 id="form-title">Agregar Producto</h3>
+        <p style="font-size: 11px; color: #888; margin-bottom: 15px;">Complete los campos para sincronizar con la BDD.</p>
+        
+        <!-- Campo oculto para el ID de MongoDB -->
+        <input type="hidden" id="mongo-id">
+
+        <div id="campos-producto">
+            <div class="form-group">
+                <label>Código de Producto/Servicio</label>
+                <input type="text" id="prod-codigo" placeholder="Ej: SERV-001">
+            </div>
+            <div class="form-group">
+                <label>Nombre del Producto</label>
+                <input type="text" id="prod-nombre" placeholder="Ej: Limpieza Dental">
+            </div>
+            <div class="form-group">
+                <label>Precio ($)</label>
+                <input type="number" id="prod-precio" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label>Categoría</label>
+                <select id="prod-cat">
+                    <option value="General">Odontología General</option>
+                    <option value="Estetica">Estética</option>
+                    <option value="Cirugia">Cirugía</option>
+                    <option value="Ortodoncia">Ortodoncia</option>
+                </select>
+            </div>
         </div>
 
-        <!-- FORM ODONTOLOGOS -->
-        <div id="form-odontologos" class="form-panel">
-            <h3 id="titulo-od">➕ Nuevo Odontólogo</h3>
-            <input type="hidden" id="f-od-mongo-id">
-            <div class="form-group"><label>ID</label><input type="text" id="f-od-id"></div>
-            <div class="form-group"><label>Nombre</label><input type="text" id="f-od-nombre"></div>
-            <div class="form-group"><label>Especialidad</label><input type="text" id="f-od-esp"></div>
-            <div class="form-group"><label>Horario</label><input type="text" id="f-od-horario"></div>
-            <button class="btn-submit" id="btn-od" onclick="guardarOdontologo()">Registrar Médico</button>
-            <button class="btn-cancel" id="btn-cancel-od" onclick="cancelarEdicion('odontologos')">Cancelar</button>
-            <div id="msg-od" class="mensaje-exito">Actualizado</div>
-        </div>
-
-        <!-- FORM CITAS -->
-        <div id="form-citas" class="form-panel">
-            <h3 id="titulo-cit">📅 Agendar Cita</h3>
-            <input type="hidden" id="f-cit-mongo-id">
-            <div class="form-group"><label>Paciente</label><input type="text" id="f-cit-pac"></div>
-            <div class="form-group"><label>Doctor</label><input type="text" id="f-cit-doc"></div>
-            <div class="form-group"><label>Servicio</label><input type="text" id="f-cit-serv"></div>
-            <div class="form-group"><label>Fecha</label><input type="date" id="f-cit-fecha"></div>
-            <div class="form-group"><label>Hora</label><input type="time" id="f-cit-hora"></div>
-            <button class="btn-submit" id="btn-cit" onclick="guardarCita()">Procesar Cita</button>
-            <button class="btn-cancel" id="btn-cancel-cit" onclick="cancelarEdicion('citas')">Cancelar</button>
-        </div>
-
-        <!-- FORM PAGOS -->
-        <div id="form-pagos" class="form-panel">
-            <h3 id="titulo-pag">💳 Registro Pago</h3>
-            <input type="hidden" id="f-pag-mongo-id">
-            <div class="form-group"><label>Paciente</label><input type="text" id="f-pag-pac"></div>
-            <div class="form-group"><label>Servicio</label><input type="text" id="f-pag-serv"></div>
-            <div class="form-group"><label>Total $</label><input type="number" id="f-pag-total"></div>
-            <div class="form-group"><label>Pagado $</label><input type="number" id="f-pag-monto"></div>
-            <button class="btn-submit" id="btn-pag" onclick="guardarPago()">Guardar Pago</button>
-            <button class="btn-cancel" id="btn-cancel-pag" onclick="cancelarEdicion('pagos')">Cancelar</button>
-        </div>
+        <button class="btn-main" id="btn-save" onclick="procesarFormulario()">Guardar en MongoDB</button>
+        <button class="btn-main" id="btn-cancel" onclick="limpiarFormulario()">Cancelar Edición</button>
+        
+        <div id="toast-msg" class="toast">Sincronizado con MongoDB Atlas</div>
     </aside>
 </div>
 
-<footer>DENTISTADG © 2026 | Diego Gomez Vazquez | 4-J Programación</footer>
+<!-- 3.4 FOOTER -->
+<footer>
+    <strong>DENTISTADG - Sistema de Gestión de Base de Datos No Relacionales</strong>
+    <div class="datos-alumno">
+        Autor: <strong>Diego Alejandro Gomez Vazquez</strong> | 
+        Grupo: <strong>4-J Programación</strong> | 
+        Submódulo: <strong>Bases de Datos No Relacionales</strong>
+    </div>
+</footer>
 
 <script>
-    const API_URL = ""; // En Render dejar vacío si el HTML se sirve desde el mismo servidor
+    let currentTab = 'productos';
 
-    function mostrarSeccion(id, enlace) {
-        document.querySelectorAll('.seccion, .form-panel').forEach(el => el.classList.remove('activa', 'activo'));
-        document.querySelectorAll('nav a').forEach(el => el.classList.remove('activo'));
-        document.getElementById('sec-' + id).classList.add('activa');
-        const form = document.getElementById('form-' + id);
-        if(form) form.classList.add('activo');
-        enlace.classList.add('activo');
-        if(id !== 'inicio') cargarDatos(id);
-        cancelarEdicion(id);
+    // 1. CAMBIO DE PESTAÑAS (Nav Funcional)
+    function switchTab(tab, btn) {
+        currentTab = tab;
+        document.querySelectorAll('.seccion').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById('sec-' + tab).classList.add('active');
+        btn.classList.add('active');
+        
+        // Cambiar título del form según la pestaña
+        const title = tab.charAt(0).toUpperCase() + tab.slice(1);
+        document.getElementById('form-title').innerText = "Nuevo " + title;
+        
+        cargarDatos();
     }
 
-    // --- CARGAR DATOS (READ) ---
-    async function cargarDatos(tipo) {
+    // 2. CRUD: LEER (Visualizar lista completa)
+    async function cargarDatos() {
         try {
-            const resp = await fetch(`/api/${tipo}`);
-            const datos = await resp.json();
-            const tabla = document.getElementById(`tabla-${tipo}`);
+            const response = await fetch(`/api/${currentTab}`);
+            const datos = await response.json();
+            const tabla = document.getElementById('lista-' + currentTab);
             tabla.innerHTML = '';
 
             datos.forEach(item => {
                 const tr = document.createElement('tr');
-                let contenido = '';
-                
-                if(tipo === 'pacientes') {
-                    contenido = `<td>${item.id_paciente}</td><td>${item.nombre} ${item.apellidos}</td><td>${item.edad}</td><td>${item.telefono}</td>`;
-                } else if(tipo === 'odontologos') {
-                    contenido = `<td>${item.id_od || item.id}</td><td>${item.nombre}</td><td>${item.especialidad}</td><td>${item.horario || 'N/A'}</td>`;
-                } else if(tipo === 'citas') {
-                    contenido = `<td>${item.paciente}</td><td>${item.doctor}</td><td>${item.fecha} ${item.hora}</td>`;
-                } else if(tipo === 'pagos') {
-                    contenido = `<td>${item.paciente}</td><td>${item.servicio}</td><td>$${item.saldo}</td>`;
+                if(currentTab === 'productos') {
+                    tr.innerHTML = `
+                        <td>${item.codigo}</td>
+                        <td>${item.nombre}</td>
+                        <td>$${item.precio}</td>
+                        <td>${item.categoria}</td>
+                    `;
+                } else if(currentTab === 'pacientes') {
+                    tr.innerHTML = `<td>${item.id_paciente}</td><td>${item.nombre}</td><td>${item.telefono}</td>`;
+                } else if(currentTab === 'odontologos') {
+                    tr.innerHTML = `<td>${item.nombre}</td><td>${item.especialidad}</td><td>${item.cedula}</td>`;
                 }
 
-                tr.innerHTML = contenido + `
-                    <td>
-                        <button class="btn-edit" onclick='prepararEdicion("${tipo}", ${JSON.stringify(item)})'>✏️</button>
-                        <button class="btn-del" onclick='eliminarDato("${tipo}", "${item._id}")'>🗑️</button>
-                    </td>`;
+                // Agregar botones de acción (Editar / Eliminar)
+                const actionsTd = document.createElement('td');
+                actionsTd.innerHTML = `
+                    <button class="btn-acc btn-edit" onclick='prepararEdicion(${JSON.stringify(item)})'>Editar</button>
+                    <button class="btn-acc btn-delete" onclick='eliminarDato("${item._id}")'>Eliminar</button>
+                `;
+                tr.appendChild(actionsTd);
                 tabla.appendChild(tr);
             });
-        } catch (e) { console.error("Error al cargar:", e); }
+        } catch (error) {
+            console.error("Error al leer datos:", error);
+        }
     }
 
-    // --- ELIMINAR (DELETE) ---
-    async function eliminarDato(tipo, id) {
-        if(!confirm("¿Seguro que quieres eliminar este registro?")) return;
-        try {
-            const resp = await fetch(`/api/${tipo}/${id}`, { method: 'DELETE' });
-            if(resp.ok) cargarDatos(tipo);
-        } catch (e) { alert("Error al eliminar"); }
-    }
+    // 3. CRUD: AGREGAR Y ACTUALIZAR
+    async function procesarFormulario() {
+        const id = document.getElementById('mongo-id').value;
+        const payload = {
+            codigo: document.getElementById('prod-codigo').value,
+            nombre: document.getElementById('prod-nombre').value,
+            precio: document.getElementById('prod-precio').value,
+            categoria: document.getElementById('prod-cat').value
+        };
 
-    // --- PREPARAR EDICIÓN (UPDATE - Llenar Form) ---
-    function prepararEdicion(tipo, item) {
-        document.getElementById(`f-${tipo.substring(0,3)}-mongo-id`).value = item._id;
-        document.getElementById(`btn-${tipo.substring(0,3)}`).innerText = "Actualizar Registro";
-        document.getElementById(`titulo-${tipo.substring(0,3)}`).innerText = "✏️ Editando Registro";
-        document.getElementById(`btn-cancel-${tipo.substring(0,3)}`).style.display = "block";
+        if(!payload.nombre || !payload.codigo) return alert("Complete los campos requeridos");
 
-        if(tipo === 'pacientes') {
-            document.getElementById('f-pac-id').value = item.id_paciente;
-            document.getElementById('f-pac-nombre').value = item.nombre;
-            document.getElementById('f-pac-apellidos').value = item.apellidos;
-            document.getElementById('f-pac-edad').value = item.edad;
-            document.getElementById('f-pac-tel').value = item.telefono;
-        } else if(tipo === 'odontologos') {
-            document.getElementById('f-od-id').value = item.id_od || item.id;
-            document.getElementById('f-od-nombre').value = item.nombre;
-            document.getElementById('f-od-esp').value = item.especialidad;
-            document.getElementById('f-od-horario').value = item.horario;
-        } // ... repetir para citas y pagos si se desea
-    }
-
-    function cancelarEdicion(tipo) {
-        const pref = tipo.substring(0,3);
-        const formId = `f-${pref}-mongo-id`;
-        if(!document.getElementById(formId)) return;
-        
-        document.getElementById(formId).value = "";
-        document.getElementById(`btn-${pref}`).innerText = "Guardar en MongoDB";
-        document.getElementById(`titulo-${pref}`).innerText = "➕ Nuevo Registro";
-        document.getElementById(`btn-cancel-${pref}`).style.display = "none";
-        
-        // Limpiar campos
-        const inputs = document.querySelectorAll(`#form-${tipo} input`);
-        inputs.forEach(i => i.value = "");
-    }
-
-    // --- GUARDAR O ACTUALIZAR (POST / PUT) ---
-    async function enviarDatos(tipo, payload) {
-        const mongoId = document.getElementById(`f-${tipo.substring(0,3)}-mongo-id`).value;
-        const url = mongoId ? `/api/${tipo}/${mongoId}` : `/api/${tipo}`;
-        const metodo = mongoId ? 'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `/api/${currentTab}/${id}` : `/api/${currentTab}`;
 
         try {
             const resp = await fetch(url, {
-                method: metodo,
+                method: method,
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             });
+
             if(resp.ok) {
-                mostrarNotificacion(tipo);
-                cancelarEdicion(tipo);
-                cargarDatos(tipo);
+                mostrarToast();
+                limpiarFormulario();
+                cargarDatos();
             }
-        } catch (e) { alert("Error de servidor"); }
+        } catch (error) { alert("Error al guardar"); }
     }
 
-    function guardarPaciente() {
-        const payload = {
-            id_paciente: document.getElementById('f-pac-id').value,
-            nombre: document.getElementById('f-pac-nombre').value,
-            apellidos: document.getElementById('f-pac-apellidos').value,
-            edad: document.getElementById('f-pac-edad').value,
-            telefono: document.getElementById('f-pac-tel').value
-        };
-        enviarDatos('pacientes', payload);
+    // 4. CRUD: ELIMINAR (Reflejado en BDD)
+    async function eliminarDato(id) {
+        if(!confirm("¿Desea eliminar este registro de la base de datos?")) return;
+        
+        try {
+            const resp = await fetch(`/api/${currentTab}/${id}`, { method: 'DELETE' });
+            if(resp.ok) {
+                mostrarToast("Eliminado con éxito");
+                cargarDatos();
+            }
+        } catch (error) { alert("Error al eliminar"); }
     }
 
-    function guardarOdontologo() {
-        const payload = {
-            id_od: document.getElementById('f-od-id').value,
-            nombre: document.getElementById('f-od-nombre').value,
-            especialidad: document.getElementById('f-od-esp').value,
-            horario: document.getElementById('f-od-horario').value
-        };
-        enviarDatos('odontologos', payload);
+    // --- FUNCIONES DE SOPORTE ---
+
+    function prepararEdicion(item) {
+        document.getElementById('mongo-id').value = item._id;
+        document.getElementById('prod-codigo').value = item.codigo;
+        document.getElementById('prod-nombre').value = item.nombre;
+        document.getElementById('prod-precio').value = item.precio;
+        document.getElementById('prod-cat').value = item.categoria;
+
+        document.getElementById('form-title').innerText = "✏️ Editando Producto";
+        document.getElementById('btn-save').innerText = "Guardar Cambios";
+        document.getElementById('btn-cancel').style.display = "block";
     }
 
-    function guardarCita() {
-        const payload = {
-            paciente: document.getElementById('f-cit-pac').value,
-            doctor: document.getElementById('f-cit-doc').value,
-            servicio: document.getElementById('f-cit-serv').value,
-            fecha: document.getElementById('f-cit-fecha').value,
-            hora: document.getElementById('f-cit-hora').value
-        };
-        enviarDatos('citas', payload);
+    function limpiarFormulario() {
+        document.getElementById('mongo-id').value = "";
+        document.getElementById('prod-codigo').value = "";
+        document.getElementById('prod-nombre').value = "";
+        document.getElementById('prod-precio').value = "";
+        document.getElementById('form-title').innerText = "Agregar Producto";
+        document.getElementById('btn-save').innerText = "Guardar en MongoDB";
+        document.getElementById('btn-cancel').style.display = "none";
     }
 
-    function guardarPago() {
-        const t = parseFloat(document.getElementById('f-pag-total').value);
-        const p = parseFloat(document.getElementById('f-pag-monto').value);
-        const payload = {
-            paciente: document.getElementById('f-pag-pac').value,
-            servicio: document.getElementById('f-pag-serv').value,
-            total: t, pagado: p, saldo: t - p
-        };
-        enviarDatos('pagos', payload);
+    function mostrarToast(txt) {
+        const t = document.getElementById('toast-msg');
+        if(txt) t.innerText = txt;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
     }
 
-    function mostrarNotificacion(tipo) {
-        const msg = document.getElementById(`msg-${tipo.substring(0,3)}`);
-        if(msg) {
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 3000);
-        }
-    }
+    // Cargar datos iniciales
+    window.onload = cargarDatos;
 </script>
+
 </body>
 </html>
