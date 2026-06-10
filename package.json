@@ -1,21 +1,16 @@
 {
-  "name": "dagv-dentista",
+  "name": "dentistadg-backend",
   "version": "1.0.0",
-  "description": "Sistema clínico DENTISTADG - Proyecto Final Diego Alejandro Gomez Vazquez",
+  "description": "Sistema de gestión dental",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.18.2",
-    "mongoose": "^8.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+    "mongoose": "^7.0.0",
+    "path": "^0.12.7"
   }
 }
